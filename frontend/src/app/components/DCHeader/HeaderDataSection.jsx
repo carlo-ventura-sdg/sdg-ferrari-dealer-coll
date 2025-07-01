@@ -1,3 +1,4 @@
+"use client";
 import { Stack, Typography } from "@mui/material";
 
 const tempData = {
@@ -15,8 +16,8 @@ export const HeaderDataSection = (props) => {
                     key={key}
                     direction='column'
                     justifyContent='flex-start'
-                    sx={{ padding: "30px" }}>
-                    <Typography variant="body" style={{color:'grey'}}>{key}</Typography>
+                    sx={{ p: "30px", paddingBottom:'0px' }}>
+                    <Typography variant="body" style={{color:'#969696'}}>{key}</Typography>
                     <Typography variant="h4" style={{fontWeight:'bold', color:'black'}}>{value}</Typography>
                 </Stack>
             ))}

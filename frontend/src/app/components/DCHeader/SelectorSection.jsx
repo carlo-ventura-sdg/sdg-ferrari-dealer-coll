@@ -1,3 +1,5 @@
+"use client";
+
 import { Stack } from "@mui/material";
 import { DateSelectorFilter } from "./DateSelectorFilter";
 import { SelectorFilter } from "./SelectorFilter";

@@ -3,6 +3,7 @@ import { Paper, Stack } from "@mui/material";
 import { FerrariButton } from "./FerrariButton";
 import { HeaderDataSection } from "./HeaderDataSection";
 import { FilterSection } from "./FilterSection";
+import { AllocateOrdersSection } from "./AllocateOrdersSection";
 
 export const DCHeader = (props) => {
   return (
@@ -10,7 +11,7 @@ export const DCHeader = (props) => {
       <Stack direction='column' width='100%'>
         <Stack direction='row' justifyContent='space-between'>
           <HeaderDataSection></HeaderDataSection>
-          <FerrariButton></FerrariButton>
+          <AllocateOrdersSection></AllocateOrdersSection>
         </Stack>
         <FilterSection></FilterSection>
       </Stack>

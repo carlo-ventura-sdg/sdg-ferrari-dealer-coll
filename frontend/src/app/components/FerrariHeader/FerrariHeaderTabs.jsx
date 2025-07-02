@@ -40,13 +40,13 @@ export const FerrariHeaderTabs = () => {
     setValue(newValue);
   };
   return (
-    <Stack sx={{ width: "100%" }}>
+    <Stack sx={{ width: "100%", }}>
       <Tabs
         value={value}
         onChange={handleChange}
         aria-label='basic tabs example'
         textColor='white'
-        sx={{ marginBottom: "6px" }}
+        sx={{ marginBottom: "6px", marginLeft: "70px" }}
         slotProps={{
           indicator: {
             sx: {
@@ -57,9 +57,9 @@ export const FerrariHeaderTabs = () => {
             },
           },
         }}>
-        <Tab label='Home' {...a11yProps(0)} />
-        <Tab label="Dealers's Collaboration" {...a11yProps(1)} />
-        <Tab label='Historical Data' {...a11yProps(2)} />
+        <Tab sx={{ fontFamily: "inherit"}}label='Home' {...a11yProps(0)} />
+        <Tab sx={{ fontFamily: "inherit"}} label="Dealers's Collaboration" {...a11yProps(1)} />
+        <Tab sx={{ fontFamily: "inherit"}} label='Historical Data' {...a11yProps(2)} />
       </Tabs>
       <FerrariPanel value={value} index={0}>
         Home

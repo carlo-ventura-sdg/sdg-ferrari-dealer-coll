@@ -1,6 +1,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  font-family: var(--font-ferrari-sans);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,12 +15,13 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  font-family: var(--font-ferrari-sans);
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-ferrari-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -33,6 +35,7 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  font-family: var(--font-ferrari-sans);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -40,3 +43,19 @@ a {
     color-scheme: dark;
   }
 }
+
+@font-face {
+  font-family: 'FerrariSans';
+  src: url('../../public/fonts/Ferrari-SansRegular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+/* @font-face {
+  font-family: 'MyCustomFontBold';
+  src: url('/fonts/YourFontFolder/YourFontBold.woff2') format('woff2'),
+       url('/fonts/YourFontFolder/YourFontBold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+} */

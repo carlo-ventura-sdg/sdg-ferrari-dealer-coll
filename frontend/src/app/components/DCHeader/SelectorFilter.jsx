@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import React from "react";
 
+const tempData =  ["All", "data 2",  "data 3"] ;
+
 export const SelectorFilter = (props) => {
   const [text, setText] = React.useState("");
 
@@ -18,7 +20,7 @@ export const SelectorFilter = (props) => {
   };
   return (
     <Stack mx='10px'>
-      <Typography variant='body' color='#969696' marginBottom='10px'>
+      <Typography variant='body' fontSize={14} color='#969696' marginBottom='10px'>
         {props.label}
       </Typography>
       <FormControl size='small' style={{ width: "150px" }}>
@@ -29,11 +31,11 @@ export const SelectorFilter = (props) => {
           value={text}
           label=''
           onChange={handleChange}>
-          <MenuItem value={"All"}>
-            All
-          </MenuItem>
-          <MenuItem value={"data 2"}>data 2</MenuItem>
-          <MenuItem value={"data 3"}>data 3</MenuItem>
+          {tempData.map((data, index) => (
+            <MenuItem key={index} value={data} sx={{fontFamily:'inherit'}}>
+              {data}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </Stack>

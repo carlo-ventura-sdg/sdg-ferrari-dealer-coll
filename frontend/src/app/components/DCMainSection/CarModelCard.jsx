@@ -4,19 +4,19 @@ import Image from "next/image";
 
 export const CarModelCard = (props) => {
   return (
-    <Stack direction='column' alignItems='center' m='15px'>
+    <Stack direction='column' alignItems='center' m='10px'>
       <Typography variant='h7' color='black' fontWeight='bold'>
-        Roma Spider
+        {props.name}
       </Typography>
       <Image
-        src={"/car1.png"}
-        alt='car1'
+        src={props.image}
+        alt={props.name}
         width={122}
         height={70}
-        style={{ marginRight: "25px" }}
+        
       />
-      <Typography variant='body2' color='black'>
-        Avg. order age 278 days
+      <Typography variant='body' color='#969696' fontSize={11}>
+        {props.desc}
       </Typography>
     </Stack>
   );

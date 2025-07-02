@@ -17,8 +17,8 @@ export const HeaderDataSection = (props) => {
                     direction='column'
                     justifyContent='flex-start'
                     sx={{ p: "30px", paddingBottom:'0px' }}>
-                    <Typography variant="body" style={{color:'#969696'}}>{key}</Typography>
-                    <Typography variant="h4" style={{fontWeight:'bold', color:'black'}}>{value}</Typography>
+                    <Typography variant="body" fontSize={18} style={{ color:'#969696'}}>{key}</Typography>
+                    <Typography variant="body" fontSize={30} style={{fontWeight:'bold', color:'black'}}>{value}</Typography>
                 </Stack>
             ))}
         </Stack>

@@ -66,6 +66,7 @@ export const AllocateOrdersSection = (props) => {
           </span>{" "}
           or drag the orders below into the open slots
         </Typography>
+
         {carCards.map((car, index) => (
           <CarModelAccordion key={index} name={car.name} />
         ))}

@@ -13,8 +13,8 @@ export const FerrariOrderCard = (props) => {
     //   {...attributes}
     //   elevation={isDragging ? 6 : 2}
       sx={{
-        width: 130,
-        height: 100,
+        width: 120,
+        height: 80,
         m: 0.5,
         display: "flex",
         flexDirection: "column",

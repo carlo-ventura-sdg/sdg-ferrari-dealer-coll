@@ -3,7 +3,7 @@ import { Paper, Stack } from "@mui/material";
 import { FerrariButton } from "./FerrariButton";
 import { HeaderDataSection } from "./HeaderDataSection";
 import { FilterSection } from "./FilterSection";
-import { AllocateOrdersSection } from "./AllocateOrdersSection";
+import { AllocateOrdersSection } from "./AllocateOrdersSection/AllocateOrdersSection";
 
 export const DCHeader = (props) => {
   return (

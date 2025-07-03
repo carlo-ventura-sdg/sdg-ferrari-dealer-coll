@@ -2,7 +2,7 @@
 import { List, ListItem, Paper, Stack } from "@mui/material";
 import { CarModelCard } from "./CarModelCard";
 
-const carCards = [
+export const carCards = [
   {
     image: "/car1.png",
     name: "Roma Spider",

@@ -6,7 +6,8 @@ export const FerrariButton = (props) => {
   return (
     <Button
       variant='contained'
-      style={{
+      
+      sx={{
         textTransform: "none",
         width: "200px",
         height: "50px",

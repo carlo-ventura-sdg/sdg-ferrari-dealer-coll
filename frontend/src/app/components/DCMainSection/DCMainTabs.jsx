@@ -1,6 +1,39 @@
 "use client";
 import { Box, Paper, Stack, Tab, Tabs } from "@mui/material";
 import React from "react";
+import PropTypes from "prop-types";
+
+import { CarModelSideSection } from "./CarModelSideSection";
+import { VisualSection } from "./VisualSection";
+
+function VisualPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role='tabpanel'
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      style={{ width: "100%" }}
+      {...other}>
+      {value === index && <Stack>{children}</Stack>}
+    </div>
+  );
+}
+VisualPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
 
 export const DCMainTabs = (props) => {
   const [value, setValue] = React.useState(0);
@@ -11,10 +44,10 @@ export const DCMainTabs = (props) => {
 
   return (
     <Stack
-      direction='row'
-      sx={{ width: "100%", justifyContent: "center", height: "100%" }}>
-      <Paper style={{background: 'linear-gradient(3deg, rgba(255, 255, 255, 0.00) 9.42%, #F1F1F1 97.35%)',}}>
-        <Box
+      
+      sx={{ width: "100%" }}>
+      {/* <Paper style={{background: 'linear-gradient(3deg, rgba(255, 255, 255, 0.00) 9.42%, #F1F1F1 97.35%)',}}> */}
+        {/* <Box
           sx={{
             position: "absolute",
             bottom: 0,
@@ -23,7 +56,7 @@ export const DCMainTabs = (props) => {
             bgcolor: "#D3D3D3",
             zIndex: 0,
           }}
-        />
+        /> */}
         <Tabs
           value={value}
           onChange={handleChange}
@@ -36,20 +69,18 @@ export const DCMainTabs = (props) => {
               },
             },
           }}
-          sx={{
-            minHeight: 0,
-            zIndex: 2,
-          }}>
+          >
           <Tab
             label='Visual'
             style={{
               textTransform: "none",
               fontWeight: 600,
               fontSize: "16px",
-              minHeight: 0,
+              // minHeight: 0,
               paddingBottom: "4px",
               color: value === 0 ? "#D92A1C" : "#B0B0B0",
             }}
+            {...a11yProps(0)}
           />
           <Tab
             label='Table'
@@ -57,13 +88,17 @@ export const DCMainTabs = (props) => {
               textTransform: "none",
               fontWeight: 600,
               fontSize: "16px",
-              minHeight: 0,
+              // minHeight: 0,
               paddingBottom: "4px",
               color: value === 1 ? "#D92A1C" : "#B0B0B0",
             }}
+            {...a11yProps(1)}
           />
+          
         </Tabs>
-      </Paper>
+        <VisualPanel style={{ backgroundColor: "white", width: "100%" }} value={value} index={0}><VisualSection></VisualSection></VisualPanel>
+          <VisualPanel value={value} index={1}></VisualPanel>
+      {/* </Paper> */}
     </Stack>
   );
 };

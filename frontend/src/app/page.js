@@ -2,6 +2,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { FerrariHeader } from "./components/FerrariHeader/FerrariHeader";
 import localFont from 'next/font/local';
+import { Box } from "@mui/material";
 
 
 const ferrariSans = localFont({
@@ -9,6 +10,7 @@ const ferrariSans = localFont({
 });
 export default function Home() {
   return (
-      <FerrariHeader style={{ fontFamily: ferrariSans.style.fontFamily }}></FerrariHeader>
+    <Box sx={{ display: 'flex' }}>
+      <FerrariHeader style={{ fontFamily: ferrariSans.style.fontFamily }}></FerrariHeader></Box>
   );
 }

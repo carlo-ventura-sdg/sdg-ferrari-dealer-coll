@@ -13,19 +13,6 @@ import { carCards } from "../../DCMainSection/CarModelSideSection";
 import CloseIcon from "@mui/icons-material/Close";
 
 export const AllocateOrdersSection = (props) => {
-  const [open, setOpen] = React.useState({ right: false });
-
-  const toggleDrawer = (anchor, newOpen) => (event) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    setOpen({ ...open, [anchor]: newOpen });
-  };
 
   const list = (anchor) => (
     <Stack
@@ -48,7 +35,7 @@ export const AllocateOrdersSection = (props) => {
         <Typography variant='body' fontWeight='bold'>
           Allocate Orders
         </Typography>
-        <IconButton onClick={toggleDrawer("right", false)}>
+        <IconButton onClick={props.toggleDrawer(anchor, false)}>
           <CloseIcon sx={{ color: "black" }}></CloseIcon>
         </IconButton>
       </Stack>
@@ -73,14 +60,20 @@ export const AllocateOrdersSection = (props) => {
       </Stack>
     </Stack>
   );
-
+  const drawerWidth = 340;
   return (
     <React.Fragment key={"right"}>
-      <FerrariButton toggleDrawer={toggleDrawer}></FerrariButton>
-      <SwipeableDrawer
+      <SwipeableDrawer 
+      sx={{
+        width: drawerWidth,
+        flexShrink: 0,
+        [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+      }}
+        variant= 'persistent'
+        // variant= {open.right == false ? 'temporary' : 'persistent'}
         anchor={"right"}
-        open={open["right"]}
-        onClose={toggleDrawer("right", false)}>
+        open={props.open["right"]}
+        onClose={props.toggleDrawer("right", false)}>
         {list("right")}
       </SwipeableDrawer>
     </React.Fragment>

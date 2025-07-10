@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -9,32 +10,40 @@ import { Grid, Stack } from "@mui/material";
 
 const orders = [
   {
-    id: "7170000696",
+    id: "o1",
+    order: "7170000696",
     name: "Cristiano Ronaldo",
+    status: "Delivered",
   },
   {
-    id: "7170000696",
+    id: "o2",
+    order: "7170000696",
     name: "Cristiano Ronaldo",
+    status: "Pending Approval",
   },
   {
-    id: "7170000696",
+    id: "o5",
+    order: "7170000696",
     name: "Cristiano Ronaldo",
+    status: "Order Call",
   },
   {
-    id: "7170000696",
+    id: "o3",
+    order: "7170000696",
     name: "Cristiano Ronaldo",
+    status: "Delivered",
   },
   {
-    id: "7170000696",
+    id: "o4",
+    order: "7170000696",
     name: "Cristiano Ronaldo",
+    status: "Pending Approval",
   },
   {
-    id: "7170000696",
+    id: "o6",
+    order: "7170000696",
     name: "Cristiano Ronaldo",
-  },
-  {
-    id: "7170000696",
-    name: "Cristiano Ronaldo",
+    status: "Order Call",
   },
 
 ];
@@ -45,19 +54,19 @@ export const CarModelAccordion = (props) => {
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls='panel1-content'
-        id='panel1-header'
+        order='panel1-header'
         style={{ fontFamily: "inherit", fontWeight: "bold" }}>
         {props.name}
       </AccordionSummary>
       <AccordionDetails>
-        <Stack sx={{ width: "100%" }}>
+        <Stack sx={{ worderth: "100%" }}>
           <Grid
             container
             rowSpacing={1}
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
             {orders.map((order, index) => (
-              <Grid item size={6}>
-                <FerrariOrderCard id={order.id} name={order.name} />
+              <Grid item key={index} size={6}>
+                <FerrariOrderCard item={orders}/>
               </Grid>
             ))}
           </Grid>

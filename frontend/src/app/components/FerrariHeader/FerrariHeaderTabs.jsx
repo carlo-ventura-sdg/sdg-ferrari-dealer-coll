@@ -40,7 +40,7 @@ export const FerrariHeaderTabs = () => {
     setValue(newValue);
   };
   return (
-    <Stack sx={{ width: "100%", }}>
+    <Stack sx={{ width: "100%"}}>
       <Tabs
         value={value}
         onChange={handleChange}

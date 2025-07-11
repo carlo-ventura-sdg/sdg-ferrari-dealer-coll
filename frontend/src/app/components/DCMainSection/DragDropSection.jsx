@@ -182,75 +182,91 @@ export const DragDropSection = () => {
       collisionDetection={closestCenter}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}>
-      <Paper
+      <Stack
+        direction='row'
         sx={{
           display: "flex",
           overflow: "auto",
-          maxHeight: "calc(100vh - 100px)",
+          maxHeight: "650px",
           position: "relative",
           scrollbarWidth: "none",
           "&::-webkit-scrollbar": { display: "none" },
         }}>
         {/* Fixed left column with car names */}
-        <List
+        <Stack
           sx={{
-            paddingY: "40px",
+            paddingTop: "30px",
             width: 240,
             flexShrink: 0,
             position: "sticky",
             left: 0,
             zIndex: 2,
             backgroundColor: "white",
-            borderRight: "1px solid #ccc",
+            // borderRight: "1px solid #ccc",
           }}>
           {carRows.map((car) => (
-            <ListItem key={car.key} sx={{ height: 150 }}>
+            <Stack key={car.key}>
               <CarModelCard
                 image={car.image}
                 name={car.name}
                 desc={car.description}
               />
-            </ListItem>
+            </Stack>
           ))}
-        </List>
+        </Stack>
 
         {/* Scrollable months */}
-        <Box sx={{ display: "flex" }}>
+        <Stack direction='row' sx={{ display: "flex" }}>
           {months.map((month) => (
-            <Box
+            <Stack
               key={month}
-              sx={{ minWidth: 260, borderLeft: "1px solid #ccc" }}>
-              <Box
+              sx={{ minWidth: 570, color: "#969696", display: "flex" }}>
+              <Stack
+                position='sticky'
                 sx={{
-                  height: 40,
+                  zIndex: 1,
+                  top: 0,
+                  minWidth: "570px",
+
+                  backgroundColor: "white",
                   display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  fontWeight: "bold",
-                  background: "#f4f4f4",
-                  borderBottom: "1px solid #ccc",
+                  // justifyContent: "center",
+                  // alignItems: "center",
                 }}>
-                {month}
-              </Box>
+                <Typography
+                  variant='body'
+                  fontWeight='bold'
+                  sx={{ mb: "15px" }}>
+                  {month}
+                </Typography>
+              </Stack>
 
               {carRows.map((car) => {
                 const slotId = getSlotKey(month, car.key);
                 return (
-                  <Box
+                  <Stack
                     key={slotId}
                     sx={{
-                      height: 150,
-                      p: 1,
-                      borderTop: "1px solid #e0e0e0",
+                      height: 180,
+                      mt: 4,
+                      borderTop: "2px solid #878787",
                     }}>
+                    <Box
+                      sx={{
+                        height: 20,
+                        width: 2,
+                        backgroundColor: "#cfcfcf", // grey color
+                        margin: "0 auto", // center horizontally
+                      }}
+                    />
                     <DragDropSlot slotId={slotId} items={slots[slotId] || []} />
-                  </Box>
+                  </Stack>
                 );
               })}
-            </Box>
+            </Stack>
           ))}
-        </Box>
-      </Paper>
+        </Stack>
+      </Stack>
 
       <DragOverlay>
         {activeItem ? <FerrariOrderCard item={activeItem} /> : null}

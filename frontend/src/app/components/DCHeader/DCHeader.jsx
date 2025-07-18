@@ -4,10 +4,14 @@ import { FerrariButton } from "./FerrariButton";
 import { HeaderDataSection } from "./HeaderDataSection";
 import { FilterSection } from "./FilterSection";
 import { AllocateOrdersSection } from "./AllocateOrdersSection/AllocateOrdersSection";
-import React from "react";
+import React, { useState } from "react";
+
+
+
 
 export const DCHeader = (props) => {
-  const [open, setOpen] = React.useState({ right: false });
+  const [open, setOpen] = useState({ right: false });
+  
 
   const toggleDrawer = (anchor, newOpen) => (event) => {
     if (
@@ -21,6 +25,7 @@ export const DCHeader = (props) => {
     setOpen({ ...open, [anchor]: newOpen });
   };
   return (
+    
     <Paper elevation={0} >
       <Stack direction='column' width='100%' >
         <Stack
@@ -31,7 +36,7 @@ export const DCHeader = (props) => {
           <FerrariButton toggleDrawer={toggleDrawer}></FerrariButton>
           <AllocateOrdersSection
             toggleDrawer={toggleDrawer}
-            open={open}></AllocateOrdersSection>
+            open={open} activeItem={props.activeItem}></AllocateOrdersSection>
         </Stack>
         <FilterSection></FilterSection>
       </Stack>

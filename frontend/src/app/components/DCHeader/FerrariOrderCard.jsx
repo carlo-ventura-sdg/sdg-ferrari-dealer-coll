@@ -4,7 +4,7 @@ import { useDraggable } from "@dnd-kit/core";
 
 //la logica di questi colori è sbagliata va cambiata in base alla mappa nel mockup
 const statusColors = {
-  Delivered: "#9CBFCD",
+  "Delivered": "#9CBFCD",
   "Pending Approval": "#FEE066",
   "Order Call": "#72D78A",
   "Preorder Call": "#BC72DC",
@@ -18,14 +18,6 @@ export const FerrariOrderCard = ({ item }) => {
 
   return (
     <Stack>
-      <Box
-        sx={{
-          height: 20,
-          width: 2,
-          backgroundColor: "#878787", 
-          margin: "0 auto",
-        }}
-      />
       <Paper
         ref={setNodeRef}
         {...listeners}

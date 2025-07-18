@@ -6,7 +6,7 @@ export const DCMainSection = (props) => {
   return (
     <Stack direction='row'>
       
-      <DCMainTabs></DCMainTabs>
+      <DCMainTabs  activeItem={props.activeItem} months={props.months} getSlotKey={props.getSlotKey} slots={props.slots}></DCMainTabs>
     </Stack>
   );
 };

@@ -2,6 +2,7 @@
 import { useDroppable } from "@dnd-kit/core";
 import { Box, Paper, Stack } from "@mui/material";
 import { FerrariOrderCard } from "../DCHeader/FerrariOrderCard";
+
 export function DragDropSlot({ slotId, items, onDrop }) {
   const { setNodeRef, isOver } = useDroppable({ id: slotId });
 
@@ -18,11 +19,21 @@ export function DragDropSlot({ slotId, items, onDrop }) {
         backgroundColor: "white",
         transition: "background-color 0.2s ease",
       }}>
-      <Stack direction='row' alignItems='center'>
+      <Stack direction='row' alignContent='center'>
         {items.map((item) => (
-          <FerrariOrderCard key={item.id} item={item} />
+          <Stack direction='column'>
+            <Box
+              sx={{
+                height: 20,
+                width: 2,
+                backgroundColor: "#878787",
+                margin: "0 auto",
+              }}
+            />
+            <FerrariOrderCard key={item.id} item={item} />
+          </Stack>
         ))}
-        <Stack direction='column' >
+        <Stack direction='column'>
           <Box
             sx={{
               height: 20,

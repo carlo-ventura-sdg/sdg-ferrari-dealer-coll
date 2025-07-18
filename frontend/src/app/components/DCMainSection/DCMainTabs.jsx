@@ -96,7 +96,7 @@ export const DCMainTabs = (props) => {
           />
           
         </Tabs>
-        <VisualPanel style={{ backgroundColor: "white", width: "100%" }} value={value} index={0}><VisualSection></VisualSection></VisualPanel>
+        <VisualPanel style={{ backgroundColor: "white", width: "100%" }} value={value} index={0}><VisualSection  activeItem={props.activeItem} months={props.months} getSlotKey={props.getSlotKey} slots={props.slots}></VisualSection></VisualPanel>
           <VisualPanel value={value} index={1}></VisualPanel>
       {/* </Paper> */}
     </Stack>

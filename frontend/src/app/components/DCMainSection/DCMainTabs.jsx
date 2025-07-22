@@ -34,7 +34,6 @@ function a11yProps(index) {
   };
 }
 
-
 export const DCMainTabs = (props) => {
   const [value, setValue] = React.useState(0);
 
@@ -43,11 +42,9 @@ export const DCMainTabs = (props) => {
   };
 
   return (
-    <Stack
-      
-      sx={{ width: "100%" }}>
+    <Stack sx={{ width: "100%", alignItems: "center" }}>
       {/* <Paper style={{background: 'linear-gradient(3deg, rgba(255, 255, 255, 0.00) 9.42%, #F1F1F1 97.35%)',}}> */}
-        {/* <Box
+      {/* <Box
           sx={{
             position: "absolute",
             bottom: 0,
@@ -57,49 +54,57 @@ export const DCMainTabs = (props) => {
             zIndex: 0,
           }}
         /> */}
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          slotProps={{
-            indicator: {
-              sx: {
-                backgroundColor: "#D92A1C",
-                height: "3px",
-                zIndex: 1,
-              },
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        sx={{ mb: "30px" }}
+        slotProps={{
+          indicator: {
+            sx: {
+              backgroundColor: "#D92A1C",
+              height: "3px",
+              zIndex: 1,
             },
+          },
+        }}>
+        <Tab
+          label='Visual'
+          style={{
+            textTransform: "none",
+            fontWeight: 600,
+            fontSize: "16px",
+            fontFamily: "inherit",
+            // minHeight: 0,
+            paddingBottom: "4px",
+            color: value === 0 ? "#D92A1C" : "#B0B0B0",
           }}
-          >
-          <Tab
-            label='Visual'
-            style={{
-              textTransform: "none",
-              fontWeight: 600,
-              fontSize: "16px",
-              fontFamily: "inherit",
-              // minHeight: 0,
-              paddingBottom: "4px",
-              color: value === 0 ? "#D92A1C" : "#B0B0B0",
-            }}
-            {...a11yProps(0)}
-          />
-          <Tab
-            label='Table'
-            style={{
-              textTransform: "none",
-              fontWeight: 600,
-              fontSize: "16px",
-              fontFamily: "inherit",
-              // minHeight: 0,
-              paddingBottom: "4px",
-              color: value === 1 ? "#D92A1C" : "#B0B0B0",
-            }}
-            {...a11yProps(1)}
-          />
-          
-        </Tabs>
-        <VisualPanel style={{ backgroundColor: "white", width: "100%" }} value={value} index={0}><VisualSection  activeItem={props.activeItem} months={props.months} getSlotKey={props.getSlotKey} slots={props.slots}></VisualSection></VisualPanel>
-          <VisualPanel value={value} index={1}></VisualPanel>
+          {...a11yProps(0)}
+        />
+        <Tab
+          label='Table'
+          style={{
+            textTransform: "none",
+            fontWeight: 600,
+            fontSize: "16px",
+            fontFamily: "inherit",
+            // minHeight: 0,
+            paddingBottom: "4px",
+            color: value === 1 ? "#D92A1C" : "#B0B0B0",
+          }}
+          {...a11yProps(1)}
+        />
+      </Tabs>
+      <VisualPanel
+        style={{ backgroundColor: "white", width: "100%" }}
+        value={value}
+        index={0}>
+        <VisualSection
+          activeItem={props.activeItem}
+          months={props.months}
+          getSlotKey={props.getSlotKey}
+          slots={props.slots}></VisualSection>
+      </VisualPanel>
+      <VisualPanel value={value} index={1}></VisualPanel>
       {/* </Paper> */}
     </Stack>
   );

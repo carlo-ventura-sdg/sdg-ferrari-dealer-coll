@@ -83,7 +83,7 @@ function FerrariPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      style={{ width: "100%" }}
+      style={{ width: "100%", alignItems:'center' }}
       {...other}>
       {value === index && <Stack>{children}</Stack>}
     </div>
@@ -331,7 +331,7 @@ export const FerrariHeaderTabs = () => {
       <FerrariPanel
         value={value}
         index={1}
-        style={{ backgroundColor: "white", width: "100%" }}>
+        style={{ backgroundColor: "white", width: "100%"}}>
         <>
           <DCHeader activeItem={activeItem}  slots={slots}></DCHeader>
           <DCMainSection activeItem={activeItem} months={months} getSlotKey={getSlotKey} slots={slots}></DCMainSection>

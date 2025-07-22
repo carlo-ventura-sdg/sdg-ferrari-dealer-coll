@@ -25,7 +25,7 @@ export const DragDropSection = (props) => {
           // overflow: "auto",
           maxHeight: "650px",
           position: "relative",
-          whiteSpace: "nowrap",
+          // whiteSpace: "nowrap",
           overflowX: "auto",
           overflowY: "auto",
           "&::-webkit-scrollbar": {

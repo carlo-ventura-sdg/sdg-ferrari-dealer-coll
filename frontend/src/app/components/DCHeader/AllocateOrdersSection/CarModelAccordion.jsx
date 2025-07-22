@@ -17,10 +17,10 @@ export const CarModelAccordion = (props) => {
     <Stack ref={setNodeRef}
     sx={{
       width: "100%",
-      p: 1,
+      // p: 1,
       pointerEvents: "auto",
       overflow: "visible",
-      transition: "border 0.2s ease-in-out",
+      // transition: "border 0.2s ease-in-out",
       minHeight: 120,
     }}>
       <Accordion defaultExpanded sx={{ marginTop: "30px" }}>
@@ -33,12 +33,12 @@ export const CarModelAccordion = (props) => {
           {props.name}
         </AccordionSummary>
 
-        <AccordionDetails>
+        <AccordionDetails sx={{px:0}}>
           <Box
             ref={setNodeRef}
             sx={{
               width: "100%",
-              p: 1,
+              // p: 1,
               border: isOver ? "2px dashed #ccc" : "none",
               transition: "border 0.2s ease-in-out",
               minHeight: 100,

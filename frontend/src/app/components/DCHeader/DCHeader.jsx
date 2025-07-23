@@ -36,7 +36,7 @@ export const DCHeader = (props) => {
           <FerrariButton toggleDrawer={toggleDrawer}></FerrariButton>
           <AllocateOrdersSection
             toggleDrawer={toggleDrawer}
-            open={open} activeItem={props.activeItem}></AllocateOrdersSection>
+            open={open} activeItem={props.activeItem}  slots={props.slots}></AllocateOrdersSection>
         </Stack>
         <FilterSection></FilterSection>
       </Stack>

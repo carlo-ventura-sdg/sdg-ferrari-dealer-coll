@@ -55,7 +55,7 @@ import {
           </Typography>
   
           {carCards.map((car, index) => (
-            <CarModelAccordion key={index} name={car.name} activeItem={props.activeItem}/>
+            <CarModelAccordion key={index} name={car.name} activeItem={props.activeItem} slots={props.slots}/>
           ))}
         </Stack>
       </Stack>

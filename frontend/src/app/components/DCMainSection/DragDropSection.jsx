@@ -13,6 +13,7 @@ import { DragDropSlot } from "./DragDropSlot";
 import { FerrariOrderCard } from "../DCHeader/FerrariOrderCard";
 import { CarModelCard } from "./CarModelCard";
 import { carRows } from "../FerrariHeader/FerrariHeaderTabs";
+import { FerrariOrderCardBase } from "../DCHeader/FerrariOrderCardBase";
 
 export const DragDropSection = (props) => {
   return (
@@ -21,13 +22,20 @@ export const DragDropSection = (props) => {
         direction='row'
         sx={{
           display: "flex",
-          overflow: "auto",
+          // overflow: "auto",
           maxHeight: "650px",
           position: "relative",
-          scrollbarWidth: "none",
-          "&::-webkit-scrollbar": { display: "none" },
+          // whiteSpace: "nowrap",
+          overflowX: "auto",
+          overflowY: "auto",
+          "&::-webkit-scrollbar": {
+            height: "42px", 
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#c1c1c1",
+            borderRadius: "1px",
+          },
         }}>
-        {/* Fixed left column with car names */}
         <Stack
           sx={{
             paddingTop: "30px",

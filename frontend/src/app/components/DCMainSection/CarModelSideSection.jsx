@@ -23,26 +23,26 @@ export const carCards = [
     name: "296 GTS",
     description: "Avg. order age 278 days",
   },
-  {
-    image: "/car1.png",
-    name: "Roma Spider",
-    description: "Avg. order age 278 days",
-  },
-  {
-    image: "/car2.png",
-    name: "SF90 XX Spider",
-    description: "Avg. order age 278 days",
-  },
-  {
-    image: "/car3.png",
-    name: "12Cilindri",
-    description: "Avg. order age 278 days",
-  },
-  {
-    image: "/car4.png",
-    name: "296 GTS",
-    description: "Avg. order age 278 days",
-  },
+  // {
+  //   image: "/car1.png",
+  //   name: "Roma Spider2",
+  //   description: "Avg. order age 278 days",
+  // },
+  // {
+  //   image: "/car2.png",
+  //   name: "SF90 XX Spider2",
+  //   description: "Avg. order age 278 days",
+  // },
+  // {
+  //   image: "/car3.png",
+  //   name: "12Cilindri2",
+  //   description: "Avg. order age 278 days",
+  // },
+  // {
+  //   image: "/car4.png",
+  //   name: "296 GTS2",
+  //   description: "Avg. order age 278 days",
+  // },
 ];
 
 export const CarModelSideSection = (props) => {

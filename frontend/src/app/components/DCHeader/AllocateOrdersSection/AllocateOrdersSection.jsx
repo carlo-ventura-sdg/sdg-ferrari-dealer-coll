@@ -19,7 +19,7 @@ export const AllocateOrdersSection = (props) => {
         anchor={"right"}
         open={props.open["right"]}
         onClose={props.toggleDrawer("right", false)}>
-        <AllocateOrdersList anchor={'right'} toggleDrawer={props.toggleDrawer} activeItem={props.activeItem}></AllocateOrdersList>
+        <AllocateOrdersList anchor={'right'} toggleDrawer={props.toggleDrawer} activeItem={props.activeItem}  slots={props.slots}></AllocateOrdersList>
       </SwipeableDrawer>
     </React.Fragment>
   );

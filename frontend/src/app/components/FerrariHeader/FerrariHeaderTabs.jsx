@@ -83,7 +83,7 @@ function FerrariPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      style={{ width: "100%" }}
+      style={{ width: "100%", alignItems:'center' }}
       {...other}>
       {value === index && <Stack>{children}</Stack>}
     </div>
@@ -109,138 +109,191 @@ export const FerrariHeaderTabs = () => {
 
   const [slots, setSlots] = useState(() => {
     const base = {};
-    for (const month of months) {
       for (const car of carRows) {
-        base[getSlotKey(month, car.key)] = [];
+        base[getSlotKey( car.key)] = [];
       }
-    }
+    
 
-    base["Jan 2025--Roma Spider"] = [
+    base["Roma Spider"] = [
       {
         id: "o1",
         order: "7170000696",
         name: "Cristiano Ronaldo",
         status: "Delivered",
+        car: "Roma Spider",
       },
       {
         id: "o2",
         order: "7170000696",
         name: "Cristiano Ronaldo",
         status: "Pending Approval",
+        car: "Roma Spider",
+      },
+      {
+        id: "o6",
+        order: "7170000696",
+        name: "Cristiano Ronaldo",
+        status: "Delivered",
+        car: "Roma Spider",
+      },
+      {
+        id: "o7",
+        order: "7170000696",
+        name: "Cristiano Ronaldo",
+        status: "Pending Approval",
+        car: "Roma Spider",
       },
     ];
 
-    base["Feb 2025--SF90 XX Spider"] = [
+    base["SF90 XX Spider"] = [
       {
         id: "o3",
         order: "7170000696",
         name: "Cristiano Ronaldo",
         status: "Delivered",
+        car: "SF90 XX Spider",
       },
       {
         id: "o4",
         order: "7170000696",
         name: "Cristiano Ronaldo",
         status: "Order Call",
+        car: "SF90 XX Spider",
+      },
+      {
+        id: "o5",
+        order: "7170000696",
+        name: "Cristiano Ronaldo",
+        status: "Pending Approval",
+        car: "SF90 XX Spider",
+      }
+    ];
+
+
+    base["12Cilindri"] = [
+      {
+        id: "o8",
+        order: "7170000696",
+        name: "Cristiano Ronaldo",
+        status: "Delivered",
+        car: "12Cilindri",
       },
       {
         id: "o9",
         order: "7170000696",
         name: "Cristiano Ronaldo",
         status: "Pending Approval",
-      }
-    ];
-
-    base["Mar 2025--Roma Spider"] = [
-      {
-        id: "o5",
-        order: "7170000696",
-        name: "Cristiano Ronaldo",
-        status: "Delivered",
-      },
-      {
-        id: "o6",
-        order: "7170000696",
-        name: "Cristiano Ronaldo",
-        status: "Pending Approval",
-      },
-    ];
-
-    base["Apr 2025--12Cilindri"] = [
-      {
-        id: "o7",
-        order: "7170000696",
-        name: "Cristiano Ronaldo",
-        status: "Delivered",
-      },
-      {
-        id: "o8",
-        order: "7170000696",
-        name: "Cristiano Ronaldo",
-        status: "Pending Approval",
+        car: "12Cilindri",
       },
       
     ];
 
-    base["Sept 2025--296 GTS"] = [
+    base["296 GTS"] = [
       {
-        id: "o6",
+        id: "o10",
         order: "7170000696",
         name: "Cristiano Ronaldo",
         status: "Order Call",
+        car: "296 GTS",
       },
-    ];
-    base["Dec 2025--SF90 XX Spider"] = [
       {
-        id: "o3",
+        id: "o11",
         order: "7170000696",
         name: "Cristiano Ronaldo",
         status: "Pending Approval",
+        car: "296 GTS",
       },
       {
-        id: "o4",
+        id: "o12",
         order: "7170000696",
         name: "Cristiano Ronaldo",
         status: "Order Call",
+        car: "296 GTS",
       },
       {
-        id: "o5",
+        id: "o13",
         order: "7170000696",
         name: "Cristiano Ronaldo",
         status: "Pending Approval",
+        car: "296 GTS",
       },
     ];
-
-    return base;
+  
+    Object.entries(base).forEach(([carName, orders]) => {
+      orders.forEach((order) => {
+        order.car = carName;
+      });
+    });
+    return {
+      ...base, 
+      UNASSIGNED: [],
+    };
   });
 
   const handleDragStart = (event) => {
-    setActiveItem(event.active.data.current);
+    const data = event.active?.data?.current;
+    console.log("Dragging:", data);
+    if (data) {
+      setActiveItem(data);
+    }
   };
+  
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
     setActiveItem(null);
-
-    if (!over || !active) return;
-
-    const draggedData = active.data.current;
+  
+    if (!over) return;
+  
+    const draggedItem = active?.data?.current;
+    const draggedItemId = draggedItem?.id;
     const toSlotId = over.id;
-
-    const fromSlotId = Object.keys(slots).find((key) =>
-      slots[key].some((item) => item.id === active.id)
+  
+    if (!draggedItem || !draggedItemId || !toSlotId) return;
+  
+    const fromSlotId = Object.keys(slots).find((slotKey) =>
+      slots[slotKey]?.some((item) => item.id === draggedItemId)
     );
-
-    if (!fromSlotId || !toSlotId || fromSlotId === toSlotId) return;
-
-    const item = slots[fromSlotId].find((i) => i.id === active.id);
+  
+    // Prevent duplication if dragged in same slot
+    if (fromSlotId === toSlotId) return;
+  
     setSlots((prev) => {
       const next = { ...prev };
-      next[fromSlotId] = next[fromSlotId].filter((i) => i.id !== active.id);
-      next[toSlotId] = [...next[toSlotId], item];
+  
+      // Remove from the original slot
+      if (fromSlotId) {
+        next[fromSlotId] = next[fromSlotId].filter((i) => i.id !== draggedItemId);
+      }
+  
+      // If dropped back into the accordion (UNASSIGNED container)
+      if (toSlotId === "UNASSIGNED") {
+        const originalCar = draggedItem.car;
+  
+        if (!originalCar || !next[originalCar]) return next;
+  
+        // Avoid duplicates
+        if (!next[originalCar].some((i) => i.id === draggedItemId)) {
+          next[originalCar].push(draggedItem);
+        }
+  
+        return next;
+      }
+  
+      // Dropped into a calendar slot
+      if (!next[toSlotId]) next[toSlotId] = [];
+  
+      // Avoid duplicates
+      if (!next[toSlotId].some((i) => i.id === draggedItemId)) {
+        next[toSlotId].push(draggedItem);
+      }
+  
       return next;
     });
   };
+  
+  
+  
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -278,9 +331,9 @@ export const FerrariHeaderTabs = () => {
       <FerrariPanel
         value={value}
         index={1}
-        style={{ backgroundColor: "white", width: "100%" }}>
+        style={{ backgroundColor: "white", width: "100%"}}>
         <>
-          <DCHeader activeItem={activeItem}></DCHeader>
+          <DCHeader activeItem={activeItem}  slots={slots}></DCHeader>
           <DCMainSection activeItem={activeItem} months={months} getSlotKey={getSlotKey} slots={slots}></DCMainSection>
         </>
       </FerrariPanel>

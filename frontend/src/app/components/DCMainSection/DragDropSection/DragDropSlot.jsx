@@ -1,11 +1,11 @@
 "use client";
 import { useDroppable } from "@dnd-kit/core";
 import { Box, Paper, Stack } from "@mui/material";
-import { FerrariOrderCard } from "../DCHeader/FerrariOrderCard";
+import { FerrariOrderCard } from "../../DCHeader/FerrariOrderCard";
 
 export function DragDropSlot({ slotId, items, onDrop }) {
   const { setNodeRef, isOver } = useDroppable({ id: slotId });
-
+console.log("DragDropSlot items:", items);
   return (
     <Box
       ref={setNodeRef}
@@ -19,34 +19,20 @@ export function DragDropSlot({ slotId, items, onDrop }) {
         backgroundColor: "white",
         transition: "background-color 0.2s ease",
       }}>
-      <Stack direction='row' alignContent='center'>
-        {items.map((item) => (
+      <Stack direction='row' alignContent='center' maxHeight='30px'>
+        {/* {items.map((item) => ( */}
           <Stack direction='column'>
-            <Box
-              sx={{
-                height: 20,
-                width: 2,
-                backgroundColor: "#878787",
-                margin: "0 auto",
-              }}
-            />
-            <FerrariOrderCard key={item.id} item={item} />
+            
+            <FerrariOrderCard key={items[0].id} item={items[0]} />
           </Stack>
-        ))}
-        <Stack direction='column'>
-          <Box
-            sx={{
-              height: 20,
-              width: 2,
-              backgroundColor: "#878787",
-              margin: "0 auto",
-            }}
-          />
+        {/* ))} */}
+        {/* <Stack direction='column'> */}
+          
           <Paper
             elevation={0}
             sx={{
-              width: 125,
-              height: 85,
+              width: "132px",
+              height: "64px",
               mx: 0.5,
               display: "flex",
               justifyContent: "center",
@@ -60,7 +46,7 @@ export function DragDropSlot({ slotId, items, onDrop }) {
             }}>
             Open Slot
           </Paper>
-        </Stack>
+        {/* </Stack> */}
       </Stack>
     </Box>
   );

@@ -1,6 +1,7 @@
 "use client";
 import { List, ListItem, Paper, Stack } from "@mui/material";
 import { CarModelCard } from "./CarModelCard";
+import { useSelector } from "react-redux";
 
 export const carCards = [
   {
@@ -23,59 +24,33 @@ export const carCards = [
     name: "296 GTS",
     description: "Avg. order age 278 days",
   },
-  // {
-  //   image: "/car1.png",
-  //   name: "Roma Spider2",
-  //   description: "Avg. order age 278 days",
-  // },
-  // {
-  //   image: "/car2.png",
-  //   name: "SF90 XX Spider2",
-  //   description: "Avg. order age 278 days",
-  // },
-  // {
-  //   image: "/car3.png",
-  //   name: "12Cilindri2",
-  //   description: "Avg. order age 278 days",
-  // },
-  // {
-  //   image: "/car4.png",
-  //   name: "296 GTS2",
-  //   description: "Avg. order age 278 days",
-  // },
+  
 ];
 
 export const CarModelSideSection = (props) => {
+  const { dealerData }  = useSelector((state) => state.anagraficaDso);
   return (
-    <Paper elevation={3}>
-      <Stack
-        direction='column'
-        height='100%'
-        width='230px'
-        alignItems='center'
-        justifyItems='center'
-        my='40px'>
-        <List
-          sx={{
-            overflow: "scroll",
-            scrollbarWidth: "none",
-            "&::-webkit-scrollbar": {
-              display: "none",
-            },
-            height: 600
-          }}>
-          {carCards.map((car, index) => {
-            return (
-              <ListItem key={index}>
-                <CarModelCard
-                  image={car.image}
-                  name={car.name}
-                  desc={car.description}></CarModelCard>
-              </ListItem>
-            );
-          })}
-        </List>
-      </Stack>
-    </Paper>
+    <Stack
+      sx={{
+        paddingTop: "30px",
+        width: 240,
+        flexShrink: 0,
+        position: "sticky",
+        left: 0,
+        zIndex: 2,
+        backgroundColor: "white",
+        // borderRight: "1px solid #ccc",
+      }}>
+      {/* {dealerData.db_response.map((car) => (
+        <Stack key={car.vettura} sx={{ backgroundColor: "white" }}>
+          <CarModelCard
+            // image={car.image}
+            name={car.model}
+            desc={car.vettura}
+          />
+        </Stack>
+      ))} */}
+    </Stack>
   );
 };
+

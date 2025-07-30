@@ -9,11 +9,11 @@ import {
   import React from "react";
   import { FerrariButton } from "../FerrariButton";
   import { CarModelAccordion } from "./CarModelAccordion";
-  import { carCards } from "../../DCMainSection/CarModelSideSection";
   import CloseIcon from "@mui/icons-material/Close";
+import { useSelector } from "react-redux";
   
   export const AllocateOrdersList = (props) => {
-  
+  const {carModels} = useSelector((state) => state.anagraficaDso);
     return (
       <Stack
         sx={{
@@ -54,8 +54,8 @@ import {
             or drag the orders below into the open slots
           </Typography>
   
-          {carCards.map((car, index) => (
-            <CarModelAccordion key={index} name={car.name} activeItem={props.activeItem} slots={props.slots}/>
+          {carModels.map((car, index) => (
+            <CarModelAccordion key={index} name={car} activeItem={props.activeItem} slots={props.slots}/>
           ))}
         </Stack>
       </Stack>

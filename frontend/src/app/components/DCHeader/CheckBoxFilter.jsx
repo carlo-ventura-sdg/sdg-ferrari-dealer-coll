@@ -8,28 +8,31 @@ import {
 } from "@mui/material";
 
 const filters = [
-  "All",
   "Delivered",
-  "Order Pending Approval",
-  "Order Call",
-  "PreOrder Call",
+  "Transit",
+  "Frozen",
+  "00",
+  "P",
+  "W",
 ];
 
 export const CheckBoxFilter = (props) => {
   return (
     <Stack direction='column' mx='20px'>
-      <Typography variant='body' color='#969696'>
+      <Typography variant='body' color='#8F8F8F' fontWeight={400} fontSize='13px'>
         Order Status
       </Typography>
-      <FormGroup row sx={{ color: "#4B4B4B" }}>
+      <FormGroup row sx={{ color: "#181818" }}>
         {filters.map((filter) => (
           <FormControlLabel
           key={filter}
-            control={<Checkbox defaultChecked style={{ color: "#F43324" }} />}
+            control={<Checkbox defaultChecked style={{ color: "#181818" }} />}
             sx={{
               "& .MuiFormControlLabel-label": {
                 fontFamily: "inherit",
-                fontSize: "14px",
+                fontSize: "12px",
+                fontWeight: 400,
+                color: "#181818",
               },
             }}
             label={filter}

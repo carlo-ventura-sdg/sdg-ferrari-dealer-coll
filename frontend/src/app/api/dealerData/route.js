@@ -1,16 +1,33 @@
-// app/api/dealerData/route.ts
-import { NextResponse } from 'next/server'
+import dealerBE from '../../api'
 
-export async function GET() {
+export async function GET(req) {
+  const { searchParams } = new URL(req.url); // Ottieni i parametri di query dalla richiesta
+  const backendUrl = '/dealerData'; // Path relativo del backend
+
   try {
-    const res = await fetch('http://localhost:8000/dealerData')
-    const data = await res.json()
+    // Effettua la chiamata al backend tramite Axios
+    const response = await dealerBE.get(backendUrl, {
+      params: Object.fromEntries(searchParams.entries()), // Converte i parametri in oggetto
+    });
 
-    return NextResponse.json(data)
+    // Restituisce la risposta dal backend
+    return new Response(JSON.stringify(response.data), {
+      status: response.status,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Backend is not reachable', details: error },
-      { status: 500 }
-    )
+    console.log('Errore nella comunicazione con il backend response:', error.response);
+    console.log('Message:', error.message);
+
+    // Gestisce gli errori
+    const status = error.response ? error.response.status : 500;
+    const message = error.response
+      ? error.response.data
+      : { error: 'Errore nella comunicazione con il backend' };
+
+    return new Response(JSON.stringify(message), {
+      status,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }

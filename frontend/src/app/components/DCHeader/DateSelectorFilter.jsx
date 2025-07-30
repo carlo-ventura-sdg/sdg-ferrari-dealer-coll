@@ -20,12 +20,12 @@ export const DateSelectorFilter = (props) => {
     <Stack mx='10px'>
       <Typography
         variant='body'
-        fontSize={14}
-        color='#969696'
+        fontSize={16.5} fontWeight={400}
+        color='#181818'
         marginBottom='10px'>
         {props.label}
       </Typography>
-      <FormControl size='small' style={{ width: "150px" }}>
+      <FormControl size='medium' style={{ width: "250px" }}>
         <InputLabel id='demo-simple-select-label'></InputLabel>
         <Select
           labelId='demo-simple-select-label'

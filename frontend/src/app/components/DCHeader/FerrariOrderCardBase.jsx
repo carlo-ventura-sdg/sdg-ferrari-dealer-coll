@@ -14,12 +14,12 @@ export const FerrariOrderCardBase = ({ item }) => {
         elevation={2}
         sx={{
           width: "125px",
-          height: "80px",
+          height: "49px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-around",
           backgroundColor: "#fff",
-          borderLeft: `8px solid ${statusColors[item.status] || "#636363"}`,
+          borderLeft: `8px solid ${statusColors["Delivered"] || "#636363"}`,
           borderRadius: 0,
           px: 0.5,
           boxShadow: 2,

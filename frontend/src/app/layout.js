@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import localFont from 'next/font/local';
+import localFont from "next/font/local";
 import "./globals.css";
+import StoreProvider from "./redux/StoreProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 const ferrariSans = localFont({
   // src: '../public/fonts/Ferrari-SansLight.woff',
-  src: '../../public/fonts/Ferrari-SansRegular.woff2',
-  variable: '--font-ferrari-sans',
+  src: "../../public/fonts/Ferrari-SansRegular.woff2",
+  variable: "--font-ferrari-sans",
 });
 export const metadata = {
   title: "Create Next App",
@@ -23,9 +24,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={ferrariSans.variable}>
+    <html lang='en' className={ferrariSans.variable}>
       <body className={ferrariSans.variable}>
-        {children}
+        <StoreProvider>{children}</StoreProvider>
       </body>
     </html>
   );

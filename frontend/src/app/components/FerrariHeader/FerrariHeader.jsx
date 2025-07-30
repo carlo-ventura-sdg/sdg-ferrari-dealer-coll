@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FerrariHeaderTabs } from "./FerrariHeaderTabs";
 import { Stack, AppBar, Toolbar, IconButton, Box } from "@mui/material";
 export const FerrariHeader = (props) => {
+
   return (
     <AppBar
       position='fixed'

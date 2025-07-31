@@ -2,7 +2,7 @@ import connBE from '../../api'
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url); // Ottieni i parametri di query dalla richiesta
-  const backendUrl = '/dealerData'; // Path relativo del backend
+  const backendUrl = '/regionData'; // Path relativo del backend
 
   try {
     // Effettua la chiamata al backend tramite Axios

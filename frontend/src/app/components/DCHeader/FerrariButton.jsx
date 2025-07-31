@@ -10,13 +10,16 @@ export const FerrariButton = (props) => {
       sx={{
         textTransform: "none",
         width: "200px",
-        height: "50px",
-        backgroundColor: "#D92A1C",
+        // height: "50px",
+        padding: "24px",
+        backgroundImage: "linear-gradient(180deg, #A00C01, #E53935)",
         margin: "30px",
         fontFamily:'inherit',
-        
-      }} onClick={props.toggleDrawer('right', true)}>
-      Allocate Orders
+        textTransform: "uppercase"
+      }} 
+      // onClick={props.toggleDrawer('right', true)}
+      >
+      Send to HQ
     </Button>
   );
 };

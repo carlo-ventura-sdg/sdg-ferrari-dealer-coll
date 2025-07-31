@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { CarModelSideSection } from "./CarModelSideSection";
 import { VisualSection } from "./VisualSection";
 import { StatusLegend } from "./StatusLegend";
+import { useSelector } from "react-redux";
 
 function VisualPanel(props) {
   const { children, value, index, ...other } = props;
@@ -37,6 +38,7 @@ function a11yProps(index) {
 
 export const DCMainTabs = (props) => {
   const [value, setValue] = React.useState(0);
+  const { currentTab } = useSelector((state) => state.anagraficaDso);
 
   const handleChange = (_, newValue) => {
     setValue(newValue);
@@ -55,11 +57,14 @@ export const DCMainTabs = (props) => {
             zIndex: 0,
           }}
         /> */}
-      <Stack direction='row' alignItems='center' justifyContent='space-between' mb='20px'>
+      <Stack
+        direction='row'
+        alignItems='center'
+        justifyContent='space-between'
+        mb='20px'>
         <Tabs
           value={value}
           onChange={handleChange}
-          
           slotProps={{
             indicator: {
               sx: {
@@ -72,7 +77,7 @@ export const DCMainTabs = (props) => {
           <Tab
             label='Visual'
             style={{
-              textTransform: "none",
+              textTransform: "uppercase",
               fontWeight: 400,
               fontSize: "15px",
               fontFamily: "inherit",
@@ -85,7 +90,7 @@ export const DCMainTabs = (props) => {
           <Tab
             label='Table'
             style={{
-              textTransform: "none",
+              textTransform: "uppercase",
               fontWeight: 400,
               fontSize: "15px",
               fontFamily: "inherit",
@@ -95,6 +100,21 @@ export const DCMainTabs = (props) => {
             }}
             {...a11yProps(1)}
           />
+          {currentTab === "RD" && (
+            <Tab
+              label='New Order Call'
+              style={{
+                textTransform: "uppercase",
+                fontWeight: 400,
+                fontSize: "15px",
+                fontFamily: "inherit",
+                // minHeight: 0,
+                paddingBottom: "4px",
+                color: value === 2 ? "#D92A1C" : "#B0B0B0",
+              }}
+              {...a11yProps(2)}
+            />
+          )}
         </Tabs>
         <StatusLegend></StatusLegend>
       </Stack>
@@ -108,6 +128,7 @@ export const DCMainTabs = (props) => {
           slots={props.slots}></VisualSection>
       </VisualPanel>
       <VisualPanel value={value} index={1}></VisualPanel>
+      <VisualPanel value={value} index={2}></VisualPanel>
       {/* </Paper> */}
     </Stack>
   );

@@ -25,6 +25,7 @@ export const HeaderDataSection = (props) => {
             variant='body'
             fontSize='18px'
             fontWeight={500}
+            pt='10px'
             style={{ fontWeight: "bold", color: "#181818" }}>
             {value}
           </Typography>

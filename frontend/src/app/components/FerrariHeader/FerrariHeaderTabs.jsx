@@ -13,11 +13,13 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getDealerData,
   getCarModels,
+  updateTab,
 } from "@/app/redux/reducers/anagrafica-dso-reducer";
 
 import { DCHeader } from "../DCHeader/DCHeader";
 import { DCMainSection } from "../DCMainSection/DCMainSection";
 import localFont from "next/dist/compiled/@next/font/dist/local";
+import { getRegionData } from "@/app/redux/reducers/region-section-reducer";
 
 // const months = [
 //   "Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025", "Jun 2025",
@@ -36,7 +38,7 @@ function FerrariPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      style={{ width: "100%", alignItems: "center" }}
+      style={{ width: "100%", alignItems: "center"   }}
       {...other}
     >
       {value === index && <Stack>{children}</Stack>}
@@ -69,6 +71,7 @@ export const FerrariHeaderTabs = () => {
 
   useEffect(() => {
     dispatch(getDealerData());
+    dispatch(getRegionData());
     dispatch(getCarModels());
   }, []);
 
@@ -180,22 +183,25 @@ export const FerrariHeaderTabs = () => {
             sx={{ fontFamily: "inherit" }}
             label="Dealer's Collaboration"
             {...a11yProps(1)}
+            onClick={()=>{dispatch(updateTab("DC"))}}
           />
-          <Tab
+           <Tab
             sx={{ fontFamily: "inherit" }}
-            label="Historical Data"
+            label="Region Dashboard"
             {...a11yProps(2)}
+            onClick={()=>{dispatch(updateTab("RD"))}}
           />
+        
         </Tabs>
 
         <FerrariPanel value={value} index={0}>
           Home
         </FerrariPanel>
 
-        <FerrariPanel value={value} index={1} style={{ backgroundColor: "white", width: "100%" }}>
+        <FerrariPanel value={value} index={1} style={{ backgroundColor: "white", width: "100%",}}>
           <>
-            <DCHeader activeItem={activeItem} slots={slots} />
-            <Divider sx={{backgroundColor:'#8F8F8F', height:'1px', my:'14px'}}></Divider>
+            <DCHeader activeItem={activeItem} slots={slots}/>
+            <Divider sx={{backgroundColor:'#8F8F8F', height:'1px', mt:'44px', mb:'14px', mx:'30px'}}></Divider>
             <DCMainSection
               activeItem={activeItem}
               months={months}
@@ -204,9 +210,18 @@ export const FerrariHeaderTabs = () => {
           </>
         </FerrariPanel>
 
-        <FerrariPanel value={value} index={2}>
-          Historical Data
+        <FerrariPanel value={value} index={2} style={{ backgroundColor: "white", width: "100%" }}>
+          <>
+            <DCHeader activeItem={activeItem} slots={slots} />
+            <Divider sx={{backgroundColor:'#8F8F8F', height:'1px', mt:'44px', mb:'14px', mx:'30px'}}></Divider>
+            <DCMainSection
+              activeItem={activeItem}
+              months={months}
+              slots={slots}
+            />
+          </>
         </FerrariPanel>
+
       </Stack>
     </DndContext>
   );

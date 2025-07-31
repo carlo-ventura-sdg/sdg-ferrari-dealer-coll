@@ -4,6 +4,7 @@ import axios from "axios";
 const initialState = {
   isLoading: false,
   error: null,
+  currentTab: null,
   dealerData: [],
   carModels: [],
   carSlots: [],
@@ -31,12 +32,15 @@ const anagraficaDsoSlice = createSlice({
     },
     setSelectedModel: (state, action) => {
       state.selectedModel = action.payload;
+    },
+    updateCurrentTab: (state, action) => {
+      state.currentTab = action.payload;
     }
     
   },
 });
 
-const { saveData, setLoading, setError, saveCarModels, saveCarSlots, setSelectedModel } =
+const { saveData, setLoading, setError, saveCarModels, saveCarSlots, setSelectedModel,updateCurrentTab } =
   anagraficaDsoSlice.actions;
 const { reducer } = anagraficaDsoSlice;
 
@@ -82,11 +86,10 @@ export const getCarSlots = (currentModel) => async (dispatch, getState) => {
     dispatch(setLoading(true));
     // console.log("Model:", currentModel);
     const data = getState().anagraficaDso?.dealerData?.db_response;
-    const correctModels = new Set();
 
     const specificSlots = data.filter((car) => car.model === currentModel);
 
-    console.log("Specific Slots:", specificSlots);
+    // console.log("Specific Slots:", specificSlots);
     dispatch(saveCarSlots(specificSlots));
   } catch (error) {
     dispatch(setError(error.message));
@@ -95,4 +98,12 @@ export const getCarSlots = (currentModel) => async (dispatch, getState) => {
   }
 };
 
+export const updateTab = (tab) => (dispatch) => {
+  try {
+    dispatch(updateCurrentTab(tab));
+    console.log("Current Tab:", tab);
+  } catch (error) {
+    dispatch(setError(error.message));
+  }
+}
 export default reducer;

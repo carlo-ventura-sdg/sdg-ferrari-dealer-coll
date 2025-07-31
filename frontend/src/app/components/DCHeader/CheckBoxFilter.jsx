@@ -33,6 +33,7 @@ export const CheckBoxFilter = (props) => {
                 fontSize: "12px",
                 fontWeight: 400,
                 color: "#181818",
+                textTransform: "uppercase"
               },
             }}
             label={filter}

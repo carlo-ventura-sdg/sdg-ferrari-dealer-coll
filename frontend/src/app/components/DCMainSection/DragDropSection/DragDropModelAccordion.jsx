@@ -9,13 +9,18 @@ import { useDroppable } from "@dnd-kit/core";
 import { FerrariOrderCard } from "../../DCHeader/FerrariOrderCard";
 import { CarModelCard } from "../CarModelCard";
 import { DragDropModelSection } from "./DragDropModelSection";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getCarSlots } from "@/app/redux/reducers/anagrafica-dso-reducer";
+import {
+  getCarSlotsForDealer,
+  getDealers,
+} from "@/app/redux/reducers/region-section-reducer";
 
 export const DragDropModelAccordion = (props) => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const { currentTab } = useSelector((state) => state.anagraficaDso);
   const { setNodeRef, isOver } = useDroppable({
-    id: props.index, 
+    id: props.index,
   });
 
   return (
@@ -32,8 +37,11 @@ export const DragDropModelAccordion = (props) => {
       <Accordion
         // sx={{ marginTop: "30px" }}
         onChange={(event, isExpanded) => {
-          if (isExpanded) {
-            dispatch(getCarSlots(props.name))
+          if (isExpanded && currentTab === "RD") {
+            dispatch(getDealers(props.name));
+            dispatch(getCarSlotsForDealer(props.name));
+          } else if (isExpanded) {
+            dispatch(getCarSlots(props.name));
           }
         }}>
         <AccordionSummary
@@ -48,7 +56,11 @@ export const DragDropModelAccordion = (props) => {
         </AccordionSummary>
 
         <AccordionDetails sx={{ px: 0 }}>
-          <DragDropModelSection selectedModel={props.selectedModel} slots={props.slots} months={props.months} activeItem={props.activeItem}></DragDropModelSection>
+          <DragDropModelSection
+            selectedModel={props.selectedModel}
+            slots={props.slots}
+            months={props.months}
+            activeItem={props.activeItem}></DragDropModelSection>
         </AccordionDetails>
       </Accordion>
     </Stack>

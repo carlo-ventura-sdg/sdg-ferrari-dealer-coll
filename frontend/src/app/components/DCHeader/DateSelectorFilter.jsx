@@ -22,7 +22,7 @@ export const DateSelectorFilter = (props) => {
         variant='body'
         fontSize={16.5} fontWeight={400}
         color='#181818'
-        marginBottom='10px'>
+        sx={{textTransform: "uppercase"}}>
         {props.label}
       </Typography>
       <FormControl size='medium' style={{ width: "250px" }}>

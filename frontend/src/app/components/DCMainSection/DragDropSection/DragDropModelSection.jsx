@@ -11,9 +11,13 @@ import {
 import { DragOverlay } from "@dnd-kit/core";
 import { DragDropSlot } from "./DragDropSlot";
 import { FerrariOrderCard } from "../../DCHeader/FerrariOrderCard";
+import { DealersSideSection } from "./DealersSideSection";
+import { useSelector } from "react-redux";
 
 export const DragDropModelSection = (props) => {
   const { selectedModel, slots, months, activeItem } = props;
+  const { currentTab } = useSelector((state) => state.anagraficaDso);
+  const { carSlotsForDealer } = useSelector((state) => state.regionSection);
 
   return (
     <>
@@ -27,6 +31,7 @@ export const DragDropModelSection = (props) => {
           overflowY: "auto",
           "&::-webkit-scrollbar": {
             height: "2px",
+            width: "2px",
             backgroundColor: "#d2d2d2",
           },
           "&::-webkit-scrollbar-thumb": {
@@ -34,6 +39,8 @@ export const DragDropModelSection = (props) => {
             borderRadius: "1px",
           },
         }}>
+        {currentTab === "RD" && <DealersSideSection></DealersSideSection>}
+
         <Stack direction='row' sx={{ display: "flex", position: "relative" }}>
           {months.map((month, index) => {
             const slotKey = props.getSlotKey

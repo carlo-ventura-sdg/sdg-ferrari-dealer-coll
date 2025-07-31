@@ -7,9 +7,12 @@ import { AllocateOrdersSection } from "./AllocateOrdersSection/AllocateOrdersSec
 import React, { useState } from "react";
 import { AllocateOrdersHeaderSection } from "./AllocateOrdersSection/AllocateOrdersHeaderSection";
 import { CheckBoxFilter } from "./CheckBoxFilter";
+import { SelectorSection } from "./SelectorSection";
+import { useSelector } from "react-redux";
 
 export const DCHeader = (props) => {
   const [open, setOpen] = useState({ right: false });
+  const {currentTab} = useSelector((state) => state.anagraficaDso);
 
   const toggleDrawer = (anchor, newOpen) => (event) => {
     if (
@@ -25,12 +28,27 @@ export const DCHeader = (props) => {
   return (
     <Paper elevation={0}>
       <Stack direction='column' width='100%'>
-        <FilterSection></FilterSection>
-        <Stack direction='row' justifyContent='space-between' mx='30px' alignItems='center' >
+        {/* <FilterSection></FilterSection> */}
+        <Stack
+          direction='row'
+          justifyContent='space-between'
+          alignItems='center' mb='10px'>
+          <SelectorSection></SelectorSection>
+          {currentTab === "RD" && (
+            <FerrariButton></FerrariButton>
+          )}
+          
+        </Stack>
+        <Stack
+          direction='row'
+          justifyContent='space-between'
+          mx='30px'
+          alignItems='center'>
           <HeaderDataSection></HeaderDataSection>
           {/* <FerrariButton toggleDrawer={toggleDrawer}></FerrariButton> */}
           <CheckBoxFilter></CheckBoxFilter>
-          <AllocateOrdersHeaderSection toggleDrawer={toggleDrawer}></AllocateOrdersHeaderSection>
+          <AllocateOrdersHeaderSection
+            toggleDrawer={toggleDrawer}></AllocateOrdersHeaderSection>
           <AllocateOrdersSection
             toggleDrawer={toggleDrawer}
             open={open}

@@ -1,12 +1,10 @@
-"use client";
-import { Stack } from "@mui/material";
-import { SelectorSection } from "./SelectorSection";
+// "use client";
+// import { Stack } from "@mui/material";
+// import { SelectorSection } from "./SelectorSection";
+// import { FerrariButton } from "./FerrariButton";
 
-export const FilterSection = (props) => {
-  return (
-    <Stack direction='row' justifyContent='space-between' alignItems='center'>
-      <SelectorSection></SelectorSection>
-      
-    </Stack>
-  );
-};
+// export const FilterSection = (props) => {
+//   return (
+    
+//   );
+// };

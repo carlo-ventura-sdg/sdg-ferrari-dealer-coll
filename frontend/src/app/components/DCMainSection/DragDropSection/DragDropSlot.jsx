@@ -5,7 +5,7 @@ import { FerrariOrderCard } from "../../DCHeader/FerrariOrderCard";
 
 export function DragDropSlot({ slotId, items, onDrop }) {
   const { setNodeRef, isOver } = useDroppable({ id: slotId });
-console.log("DragDropSlot items:", items);
+// console.log("DragDropSlot items:", items);
   return (
     <Box
       ref={setNodeRef}

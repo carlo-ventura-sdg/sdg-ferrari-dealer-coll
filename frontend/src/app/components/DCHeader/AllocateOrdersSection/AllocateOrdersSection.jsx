@@ -5,7 +5,7 @@ import React from "react";
 import { AllocateOrdersList } from "./AllocateOrdersList";
 
 export const AllocateOrdersSection = (props) => {
-  const drawerWidth = 340;
+  const drawerWidth = 440;
   return (
     <React.Fragment key={"right"}>
       <SwipeableDrawer 

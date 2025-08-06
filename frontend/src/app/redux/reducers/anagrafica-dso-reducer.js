@@ -6,7 +6,7 @@ const initialState = {
   error: null,
   currentTab: null,
   dealerData: [],
-  carModels: [],
+  carModelsForDealer: [],
   carSlots: [],
   selectedModel: null,
 };
@@ -24,8 +24,8 @@ const anagraficaDsoSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
-    saveCarModels: (state, action) => {
-      state.carModels = action.payload;
+    saveCarModelsForDealer: (state, action) => {
+      state.carModelsForDealer = action.payload;
     },
     saveCarSlots: (state, action) => {
       state.carSlots = action.payload;
@@ -40,7 +40,7 @@ const anagraficaDsoSlice = createSlice({
   },
 });
 
-const { saveData, setLoading, setError, saveCarModels, saveCarSlots, setSelectedModel,updateCurrentTab } =
+const { saveData, setLoading, setError, saveCarModelsForDealer, saveCarSlots, setSelectedModel,updateCurrentTab } =
   anagraficaDsoSlice.actions;
 const { reducer } = anagraficaDsoSlice;
 
@@ -49,7 +49,7 @@ export const getDealerData = () => async (dispatch, getState) => {
     dispatch(setLoading(true));
     const response = await axios.get("/api/dealerData");
     dispatch(saveData(response.data));
-    getCarModels()(dispatch, getState);
+    getCarModelsForDealer()(dispatch, getState);
     console.log("Dealer Data:", response.data);
   } catch (error) {
     dispatch(setError(error.message));
@@ -57,7 +57,7 @@ export const getDealerData = () => async (dispatch, getState) => {
     dispatch(setLoading(false));
   }
 };
-export const getCarModels = () => async (dispatch, getState) => {
+export const getCarModelsForDealer = () => async (dispatch, getState) => {
   try {
     dispatch(setLoading(true));
     const data = getState().anagraficaDso.dealerData.db_response;
@@ -72,7 +72,7 @@ export const getCarModels = () => async (dispatch, getState) => {
       }
     });
 
-    dispatch(saveCarModels(uniqueModels));
+    dispatch(saveCarModelsForDealer(uniqueModels));
   } catch (error) {
     dispatch(setError(error.message));
   } finally {

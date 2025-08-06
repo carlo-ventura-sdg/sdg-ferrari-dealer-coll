@@ -25,7 +25,19 @@ FROM '/docker-entrypoint-initdb.d/anagrafica_dso.csv'
 DELIMITER ','
 CSV HEADER;
 
--- Create indexes for common query fields
-CREATE INDEX idx_market ON ferrari_dso(Market);
-CREATE INDEX idx_model ON ferrari_dso(Model);
-CREATE INDEX idx_dealer ON ferrari_dso(Dealer);
+-- -- Create indexes for common query fields
+-- CREATE INDEX idx_market ON ferrari_dso(Market);
+-- CREATE INDEX idx_model ON ferrari_dso(Model);
+-- CREATE INDEX idx_dealer ON ferrari_dso(Dealer);
+
+-- Create the table
+CREATE TABLE ferrari_month_dso (
+    Month VARCHAR(20),
+    DSO VARCHAR(20) PRIMARY KEY
+);
+
+-- Copy data from CSV file
+COPY ferrari_month_dso(Month, DSO)
+FROM '/docker-entrypoint-initdb.d/ALLOCATION_MONTH_DSO.csv'
+DELIMITER ','
+CSV HEADER;

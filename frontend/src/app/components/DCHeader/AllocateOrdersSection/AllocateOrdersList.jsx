@@ -1,65 +1,80 @@
 import {
-    Divider,
-    Drawer,
-    IconButton,
-    Stack,
-    SwipeableDrawer,
-    Typography,
-  } from "@mui/material";
-  import React from "react";
-  import { FerrariButton } from "../FerrariButton";
-  import { CarModelAccordion } from "./CarModelAccordion";
-  import CloseIcon from "@mui/icons-material/Close";
+  Divider,
+  Drawer,
+  IconButton,
+  Stack,
+  SwipeableDrawer,
+  Typography,
+} from "@mui/material";
+import React from "react";
+import { FerrariButton } from "../FerrariButton";
+import { CarModelAccordion } from "./CarModelAccordion";
+import CloseIcon from "@mui/icons-material/Close";
 import { useSelector } from "react-redux";
-  
-  export const AllocateOrdersList = (props) => {
-  const {carModels} = useSelector((state) => state.anagraficaDso);
-    return (
+
+export const AllocateOrdersList = (props) => {
+  const { carModelsForDealer, currentTab } = useSelector(
+    (state) => state.anagraficaDso
+  );
+  const { carModels } = useSelector((state) => state.regionSection);
+  return (
+    <Stack
+      sx={{
+        width: 400,
+        margin: "15px",
+        overflow: "scroll",
+        scrollbarWidth: "none",
+        "&::-webkit-scrollbar": {
+          display: "none",
+        },
+      }}
+      role='presentation'>
       <Stack
-        sx={{
-          width: 300,
-          margin: "15px",
-          overflow: "scroll",
-          scrollbarWidth: "none",
-          "&::-webkit-scrollbar": {
-            display: "none",
-          },
-        }}
-        role='presentation'>
-        <Stack
-          display='flex'
-          direction='row'
-          justifyContent='space-between'
-          alignItems='center'
-          width='100%'>
-          <Typography variant='body' fontWeight='bold'>
-            Allocate Orders
-          </Typography>
-          <IconButton onClick={props.toggleDrawer(props.anchor, false)}>
-            <CloseIcon sx={{ color: "black" }}></CloseIcon>
-          </IconButton>
-        </Stack>
-  
-        <Divider />
-        <Stack marginTop='15px'>
-          <Typography variant='body' fontSize={12}>
-            <span
-              style={{
-                color: "#e53935",
-                fontWeight: "bold",
-                textDecoration: "underline",
-              }}>
-              Allocate by FIFO
-            </span>{" "}
-            or drag the orders below into the open slots
-          </Typography>
-  
-          {carModels.map((car, index) => (
-            <CarModelAccordion key={index} name={car} activeItem={props.activeItem} slots={props.slots}/>
-          ))}
-        </Stack>
+        display='flex'
+        direction='row'
+        justifyContent='space-between'
+        alignItems='center'
+        width='100%'>
+        <Typography variant='body' fontWeight='bold'>
+          Allocate Orders
+        </Typography>
+        <IconButton onClick={props.toggleDrawer(props.anchor, false)}>
+          <CloseIcon sx={{ color: "black" }}></CloseIcon>
+        </IconButton>
       </Stack>
-    );
-    
-  };
-  
+
+      <Divider />
+      <Stack marginTop='15px'>
+        <Typography variant='body' fontSize={12}>
+          <span
+            style={{
+              color: "#e53935",
+              fontWeight: "bold",
+              textDecoration: "underline",
+            }}>
+            Allocate by FIFO
+          </span>{" "}
+          or drag the orders below into the open slots
+        </Typography>
+
+        {currentTab == "RD"
+          ? carModels.map((car, index) => (
+              <CarModelAccordion
+                key={index}
+                name={car}
+                activeItem={props.activeItem}
+                slots={props.slots}
+              />
+            ))
+          : carModelsForDealer.map((car, index) => (
+              <CarModelAccordion
+                key={index}
+                name={car}
+                activeItem={props.activeItem}
+                slots={props.slots}
+              />
+            ))}
+      </Stack>
+    </Stack>
+  );
+};

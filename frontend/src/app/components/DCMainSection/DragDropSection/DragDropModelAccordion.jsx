@@ -6,7 +6,6 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Grid, Stack, Box } from "@mui/material";
 import { useDroppable } from "@dnd-kit/core";
-import { FerrariOrderCard } from "../../DCHeader/FerrariOrderCard";
 import { CarModelCard } from "../CarModelCard";
 import { DragDropModelSection } from "./DragDropModelSection";
 import { useDispatch, useSelector } from "react-redux";

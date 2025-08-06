@@ -8,7 +8,7 @@ export const DCMainSection = (props) => {
   return (
     <Stack direction='row' mx='35px'> 
    
-      <DCMainTabs  activeItem={props.activeItem} months={props.months}slots={props.slots} ></DCMainTabs>
+      <DCMainTabs  activeItem={props.activeItem} months={props.months} slots={props.slots} ></DCMainTabs>
     </Stack>
   );
 };

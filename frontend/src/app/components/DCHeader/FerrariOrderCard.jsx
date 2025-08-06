@@ -2,9 +2,9 @@ import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { FerrariOrderCardBase } from "./FerrariOrderCardBase";
 
-export const FerrariOrderCard = ({ item }) => {
+export const FerrariOrderCard = ({ id, item }) => {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
-    useDraggable({ id: item.id, data: { item } });
+    useDraggable({ id: id, data: { item } });
 
   const style = {
     transform: CSS.Transform.toString(transform),

@@ -10,6 +10,7 @@ RUN mkdir -p /docker-entrypoint-initdb.d
 
 # Copy CSV file and init script into the container
 COPY ./postgres-docker-project/anagrafica_dso.csv /docker-entrypoint-initdb.d/
+COPY ./postgres-docker-project/ALLOCATION_MONTH_DSO.csv /docker-entrypoint-initdb.d/
 COPY ./postgres-docker-project/init.sql /docker-entrypoint-initdb.d/
 
 # Set proper permissions

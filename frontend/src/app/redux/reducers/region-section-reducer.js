@@ -8,6 +8,8 @@ const initialState = {
   dealers: [],
   carSlotsForDealer: [],
   selectedModel: null,
+  monthDSO: [], 
+  carModels: [],
 };
 
 const regionSectionSlice = createSlice({
@@ -23,6 +25,9 @@ const regionSectionSlice = createSlice({
     saveData: (state, action) => {
       state.regionData = action.payload;
     },
+    saveMonthDSO: (state, action) => {
+      state.monthDSO = action.payload;
+    },
     saveDealers: (state, action) => {
       state.dealers = action.payload;
     },
@@ -31,6 +36,9 @@ const regionSectionSlice = createSlice({
     },
     setSelectedModel: (state, action) => {
       state.selectedModel = action.payload;
+    },
+    saveCarModels: (state, action) => {
+      state.carModels = action.payload;
     },
   },
 });
@@ -42,6 +50,8 @@ const {
   saveDealers,
   saveCarSlotsForDealer,
   setSelectedModel,
+  saveMonthDSO,
+  saveCarModels,
 } = regionSectionSlice.actions;
 const { reducer } = regionSectionSlice;
 
@@ -50,8 +60,10 @@ export const getRegionData = () => async (dispatch, getState) => {
     dispatch(setLoading(true));
     const response = await axios.get("/api/regionData");
     dispatch(saveData(response.data));
-    console.log("Region Data:", response.data);
-    // getDealers()(dispatch, getState);
+    const monthResponse = await axios.get("/api/monthDSO");
+    dispatch(saveMonthDSO(monthResponse.data.month_response));
+    // console.log("Month Data:", monthResponse.data.month_response);
+
   } catch (error) {
     dispatch(setError(error.message));
   } finally {
@@ -84,45 +96,74 @@ export const getDealers = (currentModel) => async (dispatch, getState) => {
   }
 };
 
-export const getCarSlotsForDealer =
-  (currentModel) => async (dispatch, getState) => {
-    try {
-      dispatch(setSelectedModel(currentModel));
-      dispatch(setLoading(true));
-      console.log("cm:", currentModel);
+export const getCarModels = () => async (dispatch, getState) => {
+  try {
+    dispatch(setLoading(true));
+    const data = getState().regionSection.regionData.reg_response;
 
-      // console.log("Model:", currentModel);
-      const slotData = getState().regionSection.regionData.reg_response;
-      const dealers = getState().regionSection?.regionData?.reg_response;
+    const seenModels = new Set();
+    const uniqueModels = [];
 
-      const result = {};
+    data.forEach((car) => {
+      if (!seenModels.has(car.model)) {
+        seenModels.add(car.model);
+        uniqueModels.push(car.model);
+      }
+    });
 
-      // Get all known dealer names
-      const knownDealers = new Set(dealers.map((d) => d.dealer));
+    dispatch(saveCarModels(uniqueModels));
+  } catch (error) {
+    dispatch(setError(error.message));
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
 
-      // Filter slots for the selected model
-      const specificSlots = slotData.filter(
-        (slot) => slot.model === currentModel
-      );
 
-      specificSlots.forEach((slot) => {
-        const dealer = slot.dealer;
-        if (!knownDealers.has(dealer)) return;
+export const getCarSlotsForDealer = (currentModel) => async (dispatch, getState) => {
+  try {
+    dispatch(setSelectedModel(currentModel));
+    dispatch(setLoading(true));
 
-        if (!result[dealer]) {
-          result[dealer] = [];
-        }
+    const state = getState();
+    const monthsMap = state.regionSection.monthDSO;
+    const slotData = state.regionSection.regionData.reg_response;
 
-        result[dealer].push(slot);
+    const result = {};
+
+    // Build inverted map from DSO to month for quick lookup
+    const dsoToMonth = {};
+    Object.entries(monthsMap).forEach(([month, dsoList]) => {
+      dsoList.forEach((dso) => {
+        dsoToMonth[dso] = month;
       });
+    });
+console.log("DSO to Month Map:", dsoToMonth);
+    // Process slots
+    slotData.forEach((slot) => {
+      const { dealer, dso, model } = slot;
+      // console.log("Processing Slot:", slot);
+      if (model !== currentModel) return;
+      const month = dsoToMonth[dso];
+      // console.log( "Mapped Month:", month, "for DSO:", dso);
+      if (!month) return; // Skip DSOs not in monthsMap
 
-      console.log("Specific Slots:", result);
-      dispatch(saveCarSlotsForDealer(result));
-    } catch (error) {
-      dispatch(setError(error.message));
-    } finally {
-      dispatch(setLoading(false));
-    }
-  };
+      // Init dealer + month if not present
+      if (!result[dealer]) result[dealer] = {};
+      if (!result[dealer][month]) result[dealer][month] = [];
+      console.log("result dealer", result[dealer]);
+      result[dealer][month].push(slot);
+    });
+
+    console.log("Organized Slots (Dealer > Month):", result);
+    dispatch(saveCarSlotsForDealer(result));
+  } catch (error) {
+    dispatch(setError(error.message));
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+
 
 export default reducer;

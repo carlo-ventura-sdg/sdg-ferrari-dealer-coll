@@ -2,8 +2,6 @@
 import { Box, Paper, Stack, Tab, Tabs } from "@mui/material";
 import React from "react";
 import PropTypes from "prop-types";
-
-import { CarModelSideSection } from "./CarModelSideSection";
 import { VisualSection } from "./VisualSection";
 import { StatusLegend } from "./StatusLegend";
 import { useSelector } from "react-redux";

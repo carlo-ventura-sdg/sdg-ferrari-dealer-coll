@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { DragOverlay } from "@dnd-kit/core";
 import { DragDropSlot } from "./DragDropSlot";
-import { FerrariOrderCard } from "../../DCHeader/FerrariOrderCard";
+import { FerrariOrderCard } from "../../DCHeader/FerrariOrderCard/FerrariOrderCard";
 import { DealersSideSection } from "./DealersSideSection";
 import { useSelector } from "react-redux";
 
@@ -40,7 +40,6 @@ export const DragDropModelSection = (props) => {
           },
         }}>
         <Stack direction='column'>
-          {/* Header Row: Month Labels */}
           <Stack direction='row' sx={{ display: "flex", position: "sticky" }}>
             <Box sx={{ width: 120 }} />
             {months.map((month) => (
@@ -55,7 +54,7 @@ export const DragDropModelSection = (props) => {
                   backgroundColor: "white",
                   textAlign: "center",
                   borderBottom: "1px solid #181818",
-                  pointerEvents: 'none',
+                  pointerEvents: "none",
                 }}>
                 <Typography
                   variant='body'
@@ -74,28 +73,25 @@ export const DragDropModelSection = (props) => {
               </Stack>
             ))}
           </Stack>
-
-          {/* Dealer Rows */}
-          {Object.entries(slots).map(([dealerId, dealerItems]) => (
-            <Stack
-              direction='row'
-              key={dealerId}
-              alignItems='flex-start'
-              spacing={0}
-              sx={{ mb: 3 }} // Add space between dealers
-            >
-              {/* Dealer Name Column */}
-              {currentTab === "RD" && (
+          {currentTab === "RD" &&
+            Object.entries(slots).map(([dealerId, dealerItems]) => (
+              <Stack
+                direction='row'
+                key={dealerId}
+                alignItems='flex-start'
+                spacing={0}
+                sx={{ mb: 3 }} 
+              >
                 <Stack
                   sx={{
                     backgroundColor: "white",
                     borderLeft: "2px solid #000",
                     pl: "10px",
                     minWidth: 120,
-                    height:' 100%',
+                    height: " 100%",
                     alignItems: "flex-start",
                     position: "sticky",
-                    pointerEvents: 'none',
+                    pointerEvents: "none",
                     left: 0,
                     zIndex: 2,
                   }}>
@@ -108,30 +104,57 @@ export const DragDropModelSection = (props) => {
                     {dealerId}
                   </Typography>
                 </Stack>
-              )}
+                {months.map((month, index) => {
+                  const monthSlots = dealerItems?.[month] || [];
 
-              {/* Month Columns per Dealer */}
-              {months.map((month, index) => {
-                const monthSlots = dealerItems?.[month] || [];
+                  return (
+                    <Stack
+                      key={index}
+                      sx={{
+                        minWidth: 550,
+                        display: "flex",
+                        alignItems: "flex-start",
+                        mx: "30px",
+                      }}>
+                      <DragDropSlot
+                        slotId={`${dealerId}-${month}`}
+                        items={monthSlots}
+                      />
+                    </Stack>
+                  );
+                })}
+              </Stack>
+            ))}
 
+          {currentTab === "DC" && (
+            <Stack direction='row' spacing={0}>
+              <Box sx={{ width: 120 }} />
+              {months.map((month) => {
+                const modelsByMonth = slots?.[month] || {};
                 return (
                   <Stack
-                    key={index}
+                    key={month}
+                    spacing={2}
                     sx={{
                       minWidth: 550,
-                      display: "flex",
-                      alignItems: "flex-start",
                       mx: "30px",
+                      alignItems: "flex-start",
                     }}>
-                    <DragDropSlot
-                      slotId={`${dealerId}-${month}`}
-                      items={monthSlots}
-                    />
+                    {Object.entries(modelsByMonth).map(
+                      ([model, modelSlots]) => (
+                        <Stack key={model} spacing={1} sx={{ width: "100%" }}>
+                          <DragDropSlot
+                            slotId={`${month}-${model}`}
+                            items={modelSlots}
+                          />
+                        </Stack>
+                      )
+                    )}
                   </Stack>
                 );
               })}
             </Stack>
-          ))}
+          )}
         </Stack>
       </Stack>
 

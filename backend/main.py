@@ -35,14 +35,14 @@ app.add_middleware(
 @app.get("/dealerData")
 async def get_data():
     async with app.state.db_pool.acquire() as conn:
-        rows = await conn.fetch("SELECT * FROM ferrari_dso WHERE dealer='100006013' AND market='USA'")
+        rows = await conn.fetch("SELECT * FROM ferrari_dso WHERE dealer_code='100006125' AND market_code='USA'")
         result = [dict(row) for row in rows]
         return {"db_response": result}
     
 @app.get("/regionData")
 async def get_data():
     async with app.state.db_pool.acquire() as conn:
-        rows = await conn.fetch("SELECT * FROM ferrari_dso WHERE market='USA' AND dso_status='In Process'")
+        rows = await conn.fetch("SELECT * FROM ferrari_dso WHERE market_code='USA'")
         result = [dict(row) for row in rows]
         return {"reg_response": result}
     

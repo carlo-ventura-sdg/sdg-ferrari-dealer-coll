@@ -66,15 +66,17 @@ export const FerrariHeaderTabs = () => {
   const dispatch = useDispatch();
   const sensors = useSensors(useSensor(PointerSensor));
   const [activeItem, setActiveItem] = useState(null);
-  const { currentTab } = useSelector((state) => state.anagraficaDso);
+  const { currentTab, selectedModel } = useSelector(
+    (state) => state.anagraficaDso
+  );
   const { carSlotsForDealer, monthDSO } = useSelector(
     (state) => state.regionSection
   );
   const months = Object.keys(monthDSO);
   // console.log("Months:", months);
-  const carSlots = useSelector((state) => state.anagraficaDso.carSlots || []);
-
-  const [slots, setSlots] = useState({ UNASSIGNED: [] });
+  const { carSlotsForDate } = useSelector((state) => state.anagraficaDso || []);
+  // console.log("Car Slots for Date:", carSlotsForDate);
+  const [slots, setSlots] = useState([]);
 
   useEffect(() => {
     dispatch(getDealerData());
@@ -91,23 +93,32 @@ export const FerrariHeaderTabs = () => {
   useEffect(() => {
     if (currentTab === "DC") {
       const newSlots = {};
-      carSlots.forEach((slot) => {
-        const model = slot.model?.trim();
-        if (!model) return;
 
-        if (!newSlots[model]) newSlots[model] = [];
+      (carSlotsForDate || []).forEach((entry) => {
+        const { month, models } = entry;
 
-        newSlots[model].push({
-          id: slot.dso, // or slot.vin
-          order: slot.dso,
-          name: slot.vettura,
-          status: slot.status_id,
-          car: model,
+        Object.entries(models || {}).forEach(([model, slots]) => {
+          if (model.trim() !== selectedModel.trim()) return;
+
+          if (!newSlots[month]) newSlots[month] = {};
+          if (!newSlots[month][model]) newSlots[month][model] = [];
+
+          newSlots[month][model].push(
+            ...slots.map((slot) => ({
+              dso: slot.dso,
+              customer_code: slot.customer_code,
+              customer_name: slot.customer_desc,
+              model_name: slot.model_desc,
+              model_code: model,
+              status: slot.status_id,
+              day_w_code: slot.day_w_code,
+              day_w_desc: slot.day_w_desc,
+            }))
+          );
         });
+        setSlots(newSlots);
       });
-
-      newSlots.UNASSIGNED = [];
-      setSlots(newSlots);
+      console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", newSlots);
     } else if (currentTab === "RD") {
       if (!carSlotsForDealer || typeof carSlotsForDealer !== "object") return;
 
@@ -122,22 +133,27 @@ export const FerrariHeaderTabs = () => {
 
             dealerSlots.forEach((slot) => {
               newSlots[dealerCode][month].push({
-                id: slot.dso, // unique identifier
-                order: slot.dso, // or any field for sorting
-                name: slot.vettura, // label in UI
+                dso: slot.dso,
+                customer_code: slot.customer_code,
+                customer_name: slot.customer_desc,
+                model_name: slot.model_desc,
+                model_code: slot.model_code,
+                dealer: slot.dealer_desc,
                 status: slot.status_id,
-                car: slot.model,
+                day_w_code: slot.day_w_code,
+                day_w_desc: slot.day_w_desc,
+                allocation_month: month,
               });
             });
           });
         }
       );
 
-      newSlots.UNASSIGNED = [];
+      // newSlots.UNASSIGNED = [];
 
       setSlots(newSlots);
     }
-  }, [carSlotsForDealer, carSlots]);
+  }, [carSlotsForDealer, carSlotsForDate]);
 
   const handleDragStart = (event) => {
     const data = event.active?.data?.current;
@@ -166,15 +182,15 @@ export const FerrariHeaderTabs = () => {
 
       if (fromSlotId) {
         next[fromSlotId] = next[fromSlotId].filter(
-          (i) => i.id !== draggedItemId
+          (i) => i.dso !== draggedItemId
         );
       }
 
       if (toSlotId === "UNASSIGNED") {
-        const originalCar = draggedItem.car;
+        const originalCar = draggedItem.model_code;
         if (!originalCar || !next[originalCar]) return next;
 
-        if (!next[originalCar].some((i) => i.id === draggedItemId)) {
+        if (!next[originalCar].some((i) => i.dso === draggedItemId)) {
           next[originalCar].push(draggedItem);
         }
 
@@ -183,7 +199,7 @@ export const FerrariHeaderTabs = () => {
 
       if (!next[toSlotId]) next[toSlotId] = [];
 
-      if (!next[toSlotId].some((i) => i.id === draggedItemId)) {
+      if (!next[toSlotId].some((i) => i.dso === draggedItemId)) {
         next[toSlotId].push(draggedItem);
       }
 

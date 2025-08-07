@@ -8,6 +8,7 @@ const initialState = {
   dealerData: [],
   carModelsForDealer: [],
   carSlots: [],
+  carSlotsForDate: [],
   selectedModel: null,
 };
 
@@ -35,12 +36,15 @@ const anagraficaDsoSlice = createSlice({
     },
     updateCurrentTab: (state, action) => {
       state.currentTab = action.payload;
-    }
+    },
+    saveCarSlotsForDate: (state, action) => {
+      state.carSlotsForDate = action.payload;
+    },
     
   },
 });
 
-const { saveData, setLoading, setError, saveCarModelsForDealer, saveCarSlots, setSelectedModel,updateCurrentTab } =
+const { saveData, setLoading, setError, saveCarModelsForDealer, saveCarSlots, setSelectedModel,updateCurrentTab, saveCarSlotsForDate } =
   anagraficaDsoSlice.actions;
 const { reducer } = anagraficaDsoSlice;
 
@@ -50,7 +54,7 @@ export const getDealerData = () => async (dispatch, getState) => {
     const response = await axios.get("/api/dealerData");
     dispatch(saveData(response.data));
     getCarModelsForDealer()(dispatch, getState);
-    console.log("Dealer Data:", response.data);
+    // console.log("Dealer Data:", response.data);
   } catch (error) {
     dispatch(setError(error.message));
   } finally {
@@ -66,9 +70,9 @@ export const getCarModelsForDealer = () => async (dispatch, getState) => {
     const uniqueModels = [];
 
     data.forEach((car) => {
-      if (!seenModels.has(car.model)) {
-        seenModels.add(car.model);
-        uniqueModels.push(car.model);
+      if (!seenModels.has(car.model_desc)) {
+        seenModels.add(car.model_desc);
+        uniqueModels.push(car.model_desc);
       }
     });
 
@@ -87,7 +91,7 @@ export const getCarSlots = (currentModel) => async (dispatch, getState) => {
     // console.log("Model:", currentModel);
     const data = getState().anagraficaDso?.dealerData?.db_response;
 
-    const specificSlots = data.filter((car) => car.model === currentModel);
+    const specificSlots = data.filter((car) => car.model_desc === currentModel);
 
     // console.log("Specific Slots:", specificSlots);
     dispatch(saveCarSlots(specificSlots));
@@ -106,4 +110,54 @@ export const updateTab = (tab) => (dispatch) => {
     dispatch(setError(error.message));
   }
 }
+
+
+export const getCarSlotsByMonth = (currentModel) => async (dispatch, getState) => {
+  try {
+    dispatch(setSelectedModel(currentModel));
+    dispatch(setLoading(true));
+
+    const state = getState();
+    const monthsMap = state.regionSection.monthDSO;
+    const slotData = state.anagraficaDso?.dealerData?.db_response;
+
+    const dsoToMonth = {};
+    Object.entries(monthsMap).forEach(([month, dsoList]) => {
+      dsoList.forEach((dso) => {
+        dsoToMonth[dso] = month;
+      });
+    });
+
+    // Build temporary object first
+    const tempMap = {};
+
+    slotData.forEach((slot) => {
+      const { dso, model_desc } = slot;
+      const model = model_desc?.trim();
+      if (!model || model !== currentModel) return;
+
+      const month = dsoToMonth[dso];
+      if (!month) return;
+
+      if (!tempMap[month]) tempMap[month] = {};
+      if (!tempMap[month][model]) tempMap[month][model] = [];
+
+      tempMap[month][model].push(slot);
+    });
+
+    // Convert to array format
+    const result = Object.entries(tempMap).map(([month, models]) => ({
+      month,
+      models,
+    }));
+
+    dispatch(saveCarSlotsForDate(result));
+  } catch (error) {
+    dispatch(setError(error.message));
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+
 export default reducer;

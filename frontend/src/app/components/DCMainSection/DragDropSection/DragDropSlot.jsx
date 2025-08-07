@@ -1,7 +1,7 @@
 "use client";
 import { useDroppable } from "@dnd-kit/core";
 import { Box, Paper } from "@mui/material";
-import { FerrariOrderCard } from "../../DCHeader/FerrariOrderCard";
+import { FerrariOrderCard } from "../../DCHeader/FerrariOrderCard/FerrariOrderCard";
 
 export function DragDropSlot({ slotId, items = [], onDrop }) {
   const { setNodeRef } = useDroppable({ id: slotId });
@@ -18,16 +18,14 @@ export function DragDropSlot({ slotId, items = [], onDrop }) {
         minHeight: 150,
         backgroundColor: "white",
         p: 1,
-      }}
-    >
+      }}>
       {[...items, { isOpenSlot: true }].map((item, index) => (
         <Box
-          key={`${slotId}-${item?.id || "open-slot"}`}
+          key={`${slotId}-${item?.dso || "open-slot"}`}
           sx={{
-            width: "130px", // fixed card width for column effect
+            width: "150px", // fixed card width for column effect
             flexShrink: 0,
-          }}
-        >
+          }}>
           {item.isOpenSlot ? (
             <Paper
               elevation={0}
@@ -43,12 +41,11 @@ export function DragDropSlot({ slotId, items = [], onDrop }) {
                 color: "#858585",
                 fontSize: 12,
                 fontWeight: "bold",
-              }}
-            >
+              }}>
               Open Slot
             </Paper>
           ) : (
-            <FerrariOrderCard id={item?.id} item={item} />
+            <FerrariOrderCard id={item?.dso} item={item} />
           )}
         </Box>
       ))}

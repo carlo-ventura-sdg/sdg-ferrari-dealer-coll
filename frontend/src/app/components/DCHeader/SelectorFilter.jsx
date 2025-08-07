@@ -28,7 +28,7 @@ export const SelectorFilter = (props) => {
         sx={{textTransform: "uppercase"}}>
         {props.label}
       </Typography>
-      <FormControl size='medium' style={{ width: "250px" }}>
+      <FormControl size='small' style={{ width: "250px" }}>
         <Select
           color='#181818'
           labelId='demo-simple-select-label'

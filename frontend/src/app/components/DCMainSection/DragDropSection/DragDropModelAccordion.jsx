@@ -9,7 +9,7 @@ import { useDroppable } from "@dnd-kit/core";
 import { CarModelCard } from "../CarModelCard";
 import { DragDropModelSection } from "./DragDropModelSection";
 import { useDispatch, useSelector } from "react-redux";
-import { getCarSlots } from "@/app/redux/reducers/anagrafica-dso-reducer";
+import { getCarSlots, getCarSlotsByMonth } from "@/app/redux/reducers/anagrafica-dso-reducer";
 import {
   getCarSlotsForDealer,
   getDealers,
@@ -41,6 +41,8 @@ export const DragDropModelAccordion = (props) => {
             dispatch(getCarSlotsForDealer(props.name));
           } else if (isExpanded) {
             dispatch(getCarSlots(props.name));
+            dispatch(getCarSlotsByMonth(props.name));
+            
           }
         }}>
         <AccordionSummary

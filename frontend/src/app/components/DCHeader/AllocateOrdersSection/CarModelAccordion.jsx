@@ -4,7 +4,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { FerrariOrderCard } from "../FerrariOrderCard";
+import { FerrariOrderCard } from "../FerrariOrderCard/FerrariOrderCard";
 import { Grid, Stack, Box } from "@mui/material";
 import { useDroppable } from "@dnd-kit/core";
 import { useSelector } from "react-redux";
@@ -13,7 +13,7 @@ export const CarModelAccordion = (props) => {
   const { name: modelName, slots, onExpand } = props;
   const { setNodeRef, isOver } = useDroppable({ id: modelName });
   const [expanded, setExpanded] = React.useState(false);
-  const { currentTab } = useSelector((state => state.anagraficaDso));
+  const { currentTab } = useSelector((state) => state.anagraficaDso);
   const handleChange = (event, isExpanded) => {
     setExpanded(isExpanded);
     if (isExpanded && typeof onExpand === "function") {
@@ -23,7 +23,6 @@ export const CarModelAccordion = (props) => {
 
   let allOrders = [];
 
-if (currentTab === "RD") {
   allOrders = React.useMemo(() => {
     const flat = [];
     Object.values(slots).forEach((monthsObj) => {
@@ -35,8 +34,6 @@ if (currentTab === "RD") {
     });
     return flat;
   }, [slots]);
-}
-
 
   return (
     <Stack
@@ -72,17 +69,11 @@ if (currentTab === "RD") {
               minHeight: 100,
             }}>
             <Grid container spacing={2}>
-              {currentTab === "RD"
-                ? allOrders.map((order, index) => (
-                    <Grid item xs={12} sm={6} md={4} key={order?.id || index}>
-                      <FerrariOrderCard id={order?.id} item={order} />
-                    </Grid>
-                  ))
-                : (slots[modelName] || []).map((order, index) => (
-                    <Grid item key={index} xs={6}>
-                      <FerrariOrderCard id={order?.id} item={order} />
-                    </Grid>
-                  ))}
+              {allOrders.map((order, index) => (
+                <Grid item xs={12} sm={6} md={4} key={order?.dso || index}>
+                  <FerrariOrderCard id={order?.dso} item={order} />
+                </Grid>
+              ))}
             </Grid>
           </Box>
         </AccordionDetails>

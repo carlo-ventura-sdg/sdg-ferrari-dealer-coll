@@ -25,7 +25,7 @@ export const DateSelectorFilter = (props) => {
         sx={{textTransform: "uppercase"}}>
         {props.label}
       </Typography>
-      <FormControl size='medium' style={{ width: "250px" }}>
+      <FormControl size='small' style={{ width: "250px" }}>
         <InputLabel id='demo-simple-select-label'></InputLabel>
         <Select
           labelId='demo-simple-select-label'

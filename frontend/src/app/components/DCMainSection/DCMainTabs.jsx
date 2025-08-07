@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { VisualSection } from "./VisualSection";
 import { StatusLegend } from "./StatusLegend";
 import { useSelector } from "react-redux";
+import TableSection from "./TableSection/TableSection";
 
 function VisualPanel(props) {
   const { children, value, index, ...other } = props;
@@ -125,7 +126,9 @@ export const DCMainTabs = (props) => {
           months={props.months}
           slots={props.slots}></VisualSection>
       </VisualPanel>
-      <VisualPanel value={value} index={1}></VisualPanel>
+      <VisualPanel value={value} index={1}>
+        <TableSection></TableSection>
+      </VisualPanel>
       <VisualPanel value={value} index={2}></VisualPanel>
       {/* </Paper> */}
     </Stack>

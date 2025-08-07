@@ -80,14 +80,14 @@ export const getDealers = (currentModel) => async (dispatch, getState) => {
     const uniqueDealers = [];
 
     data.forEach((d) => {
-      const dealerId = d.dealer; // Adjust based on actual structure
+      const dealerId = d.dealer_desc; // Adjust based on actual structure
 
-      if (d.model === currentModel && !seenDealerIds.has(dealerId)) {
+      if (d.model_code === currentModel && !seenDealerIds.has(dealerId)) {
         seenDealerIds.add(dealerId);
-        uniqueDealers.push(d.dealer);
+        uniqueDealers.push(d.dealer_desc);
       }
     });
-    console.log("Unique Dealers:", uniqueDealers);
+    // console.log("Unique Dealers:", uniqueDealers);
     dispatch(saveDealers(uniqueDealers));
   } catch (error) {
     dispatch(setError(error.message));
@@ -105,9 +105,9 @@ export const getCarModels = () => async (dispatch, getState) => {
     const uniqueModels = [];
 
     data.forEach((car) => {
-      if (!seenModels.has(car.model)) {
-        seenModels.add(car.model);
-        uniqueModels.push(car.model);
+      if (!seenModels.has(car.model_desc)) {
+        seenModels.add(car.model_desc);
+        uniqueModels.push(car.model_desc);
       }
     });
 
@@ -138,24 +138,24 @@ export const getCarSlotsForDealer = (currentModel) => async (dispatch, getState)
         dsoToMonth[dso] = month;
       });
     });
-console.log("DSO to Month Map:", dsoToMonth);
+// console.log("DSO to Month Map:", dsoToMonth);
     // Process slots
     slotData.forEach((slot) => {
-      const { dealer, dso, model } = slot;
+      const { dealer_code, dso, model_desc } = slot;
       // console.log("Processing Slot:", slot);
-      if (model !== currentModel) return;
+      if (model_desc !== currentModel) return;
       const month = dsoToMonth[dso];
       // console.log( "Mapped Month:", month, "for DSO:", dso);
       if (!month) return; // Skip DSOs not in monthsMap
 
       // Init dealer + month if not present
-      if (!result[dealer]) result[dealer] = {};
-      if (!result[dealer][month]) result[dealer][month] = [];
-      console.log("result dealer", result[dealer]);
-      result[dealer][month].push(slot);
+      if (!result[dealer_code]) result[dealer_code] = {};
+      if (!result[dealer_code][month]) result[dealer_code][month] = [];
+      // console.log("result dealer", result[dealer]);
+      result[dealer_code][month].push(slot);
     });
 
-    console.log("Organized Slots (Dealer > Month):", result);
+    // console.log("Organized Slots (Dealer > Month):", result);
     dispatch(saveCarSlotsForDealer(result));
   } catch (error) {
     dispatch(setError(error.message));

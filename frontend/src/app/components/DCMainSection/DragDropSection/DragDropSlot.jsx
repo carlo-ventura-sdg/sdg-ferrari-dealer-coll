@@ -6,6 +6,9 @@ import { FerrariOrderCard } from "../../DCHeader/FerrariOrderCard/FerrariOrderCa
 export function DragDropSlot({ slotId, items = [], onDrop }) {
   const { setNodeRef } = useDroppable({ id: slotId });
 
+  // Sort items in descending order by rank before rendering
+  const sortedItems = [...items].sort((a, b) => (b.rank ?? 0) - (a.rank ?? 0));
+
   return (
     <Box
       ref={setNodeRef}
@@ -19,7 +22,7 @@ export function DragDropSlot({ slotId, items = [], onDrop }) {
         backgroundColor: "white",
         p: 1,
       }}>
-      {[...items, { isOpenSlot: true }].map((item, index) => (
+      {[...sortedItems, { isOpenSlot: true }].map((item, index) => (
         <Box
           key={`${slotId}-${item?.dso || "open-slot"}`}
           sx={{

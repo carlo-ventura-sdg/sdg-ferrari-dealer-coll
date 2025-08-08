@@ -17,6 +17,39 @@ export const AllocateOrdersList = (props) => {
     (state) => state.anagraficaDso
   );
   const { carModels } = useSelector((state) => state.regionSection);
+  // const { dealerData } = useSelector(
+  //   (state) => state.anagraficaDso
+  // );
+  // const { selectedModel } = useSelector((state) => state.anagraficaDso);
+  // const [slots, setSlots] = React.useState([]);
+  // React.useEffect(() => {
+  //   const newSlots = {};
+
+  //   (dealerData.db_response || []).forEach((slot) => {
+  //     const model = slot.model_desc?.trim();
+  //     if (model !== selectedModel?.trim()) return;
+  //     console.log("All Orders:", dealerData);
+
+  //     if (!newSlots[model]) newSlots[model] = [];
+
+  //     newSlots[model].push({
+  //       dso: slot.dso,
+  //       customer_code: slot.customer_code,
+  //       customer_name: slot.customer_desc,
+  //       model_name: slot.model_desc,
+  //       model_code: slot.model_code,
+  //       status: slot.status_id,
+  //       order_call: slot.flag_order_call,
+  //       day_w_code: slot.day_w_code,
+  //       day_w_desc: slot.day_w_desc,
+  //       allocation_month: slot.allocation_month,
+  //       rank: slot.rank,
+  //     });
+  //   });
+
+  //   setSlots(newSlots);
+  // }, [dealerData, selectedModel]);
+
   return (
     <Stack
       sx={{

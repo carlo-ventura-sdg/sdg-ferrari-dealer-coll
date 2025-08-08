@@ -90,7 +90,24 @@ export const FerrariOrderCardDialog = ({ open, onClose, id, item }) => {
             fontWeight={400}
             fontSize='13px'
             color='#181818'>
-            {item.month}
+            {item.order_call || '-'} 
+          </Typography>
+        </Stack>
+        <Stack>
+          {/* TOGLIERE */}
+          <Typography
+            fontFamily='inherit'
+            fontWeight={400}
+            fontSize='13px'
+            color='#8F8F8F'>
+            Rank
+          </Typography>
+          <Typography
+            fontFamily='inherit'
+            fontWeight={400}
+            fontSize='13px'
+            color='#181818'>
+            {item.rank} 
           </Typography>
         </Stack>
       </Stack>

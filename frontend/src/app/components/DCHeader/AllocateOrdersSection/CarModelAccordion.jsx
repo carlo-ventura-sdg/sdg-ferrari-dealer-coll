@@ -8,32 +8,44 @@ import { FerrariOrderCard } from "../FerrariOrderCard/FerrariOrderCard";
 import { Grid, Stack, Box } from "@mui/material";
 import { useDroppable } from "@dnd-kit/core";
 import { useSelector } from "react-redux";
+import { mapStatusToLabel } from "@/app/utils/legend";
 
 export const CarModelAccordion = (props) => {
-  const { name: modelName, slots, onExpand } = props;
+  const { name: modelName, onExpand, slots } = props;
   const { setNodeRef, isOver } = useDroppable({ id: modelName });
   const [expanded, setExpanded] = React.useState(false);
-  const { currentTab } = useSelector((state) => state.anagraficaDso);
+  // console.log(slots, "Slots in CarModelAccordion");
+
   const handleChange = (event, isExpanded) => {
     setExpanded(isExpanded);
     if (isExpanded && typeof onExpand === "function") {
       onExpand(modelName);
     }
   };
-
-  let allOrders = [];
-
-  allOrders = React.useMemo(() => {
-    const flat = [];
-    Object.values(slots).forEach((monthsObj) => {
-      Object.values(monthsObj || {}).forEach((orders) => {
-        if (Array.isArray(orders)) {
-          flat.push(...orders);
-        }
-      });
-    });
-    return flat;
+  
+  const allOrders = React.useMemo(() => {
+    return Object.values(slots)
+      .flatMap((monthsObj) =>
+        Object.values(monthsObj || {}).flatMap((orders) =>
+          (orders || []).filter(
+            (order) =>
+              !["Transit", "Delivered"].includes(
+                mapStatusToLabel(order.status_id)
+              )
+          )
+        )
+      )
+      .sort((a, b) => (b.rank ?? 0) - (a.rank ?? 0));
   }, [slots]);
+  // const allOrders = React.useMemo(() => {
+  //   return Object.values(slots || {})
+  //     .flat()
+  //     .filter(
+  //       (order) =>
+  //         !["Transit", "Delivered"].includes(mapStatusToLabel(order.status_id))
+  //     )
+  //     .sort((a, b) => (b.rank ?? 0) - (a.rank ?? 0));
+  // }, [slots, mapStatusToLabel]);
 
   return (
     <Stack

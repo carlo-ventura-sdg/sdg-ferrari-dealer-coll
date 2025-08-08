@@ -69,12 +69,13 @@ CSV HEADER;
 
 -- Create the table
 CREATE TABLE ferrari_month_dso (
-    Month VARCHAR(20),
-    DSO VARCHAR(20) PRIMARY KEY
+    DSO VARCHAR(20) PRIMARY KEY,
+    rank VARCHAR(20),
+    month VARCHAR(20)
 );
 
 -- Copy data from CSV file
-COPY ferrari_month_dso(Month, DSO)
-FROM '/docker-entrypoint-initdb.d/ALLOCATION_MONTH_DSO.csv'
+COPY ferrari_month_dso(DSO, rank, month)
+FROM '/docker-entrypoint-initdb.d/allocation-month.csv'
 DELIMITER ','
 CSV HEADER;

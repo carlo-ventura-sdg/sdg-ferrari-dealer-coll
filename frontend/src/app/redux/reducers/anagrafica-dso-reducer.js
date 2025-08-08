@@ -54,7 +54,6 @@ export const getDealerData = () => async (dispatch, getState) => {
     const response = await axios.get("/api/dealerData");
     dispatch(saveData(response.data));
     getCarModelsForDealer()(dispatch, getState);
-    // console.log("Dealer Data:", response.data);
   } catch (error) {
     dispatch(setError(error.message));
   } finally {
@@ -121,14 +120,16 @@ export const getCarSlotsByMonth = (currentModel) => async (dispatch, getState) =
     const monthsMap = state.regionSection.monthDSO;
     const slotData = state.anagraficaDso?.dealerData?.db_response;
 
-    const dsoToMonth = {};
+    const dsoToMonthAndRank = {};
     Object.entries(monthsMap).forEach(([month, dsoList]) => {
-      dsoList.forEach((dso) => {
-        dsoToMonth[dso] = month;
+      dsoList.forEach((item) => {
+        if (!item?.dso || item.rank == null) {
+          return;
+        }
+        dsoToMonthAndRank[item.dso] = { month, rank: item.rank };
       });
     });
 
-    // Build temporary object first
     const tempMap = {};
 
     slotData.forEach((slot) => {
@@ -136,16 +137,24 @@ export const getCarSlotsByMonth = (currentModel) => async (dispatch, getState) =
       const model = model_desc?.trim();
       if (!model || model !== currentModel) return;
 
-      const month = dsoToMonth[dso];
-      if (!month) return;
+      // const month = dsoToMonthAndRank[dso];
+      // if (!month) return;
+      const dsoInfo = dsoToMonthAndRank[dso];
+      if (!dsoInfo) {
+        return;
+      }
+
+      const { month, rank } = dsoInfo;
 
       if (!tempMap[month]) tempMap[month] = {};
       if (!tempMap[month][model]) tempMap[month][model] = [];
 
-      tempMap[month][model].push(slot);
+      tempMap[month][model].push({
+        ...slot,
+        rank,
+      });
     });
 
-    // Convert to array format
     const result = Object.entries(tempMap).map(([month, models]) => ({
       month,
       models,

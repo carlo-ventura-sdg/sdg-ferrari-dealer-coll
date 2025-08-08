@@ -50,16 +50,21 @@ async def get_data():
 async def get_data():
     async with app.state.db_pool.acquire() as conn:
         rows = await conn.fetch("SELECT * FROM ferrari_month_dso WHERE month LIKE '%2025%'")
-        grouped = {}
+
+    grouped = {}
 
     for row in rows:
         row_dict = dict(row)
         month = row_dict["month"]
         dso = row_dict["dso"]
+        rank = row_dict["rank"]
         
         if month not in grouped:
             grouped[month] = []
-        
-        grouped[month].append(dso)
+
+        grouped[month].append({
+            "dso": dso,
+            "rank": rank
+        })
 
     return {"month_response": grouped}

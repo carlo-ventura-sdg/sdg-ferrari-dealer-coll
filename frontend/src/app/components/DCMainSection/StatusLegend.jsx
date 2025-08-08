@@ -1,12 +1,5 @@
+import { legendItems } from "@/app/utils/legend";
 import { Box, Stack, Typography } from "@mui/material";
-
-const legendItems = [
-  { label: "Delivered", color: "#4FC483" },     
-  { label: "Transit", color: "#1C3B8A" },       
-  { label: "OO", color: "#EFB166" },           
-  { label: "P", color: "#BDDAEC" },            
-  { label: "W", color: "#AD6DCF" },           
-];
 
 export const StatusLegend = () => {
   return (
@@ -21,7 +14,7 @@ export const StatusLegend = () => {
               backgroundColor: item.color,
             }}
           />
-          <Typography variant="body" sx={{ fontSize: 13, color:'black' }}>
+          <Typography variant="body" sx={{ fontSize: 13, color: 'black' }}>
             {item.label}
           </Typography>
         </Stack>

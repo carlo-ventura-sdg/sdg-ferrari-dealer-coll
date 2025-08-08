@@ -8,7 +8,7 @@ const initialState = {
   dealers: [],
   carSlotsForDealer: [],
   selectedModel: null,
-  monthDSO: [], 
+  monthDSO: [],
   carModels: [],
 };
 
@@ -63,7 +63,6 @@ export const getRegionData = () => async (dispatch, getState) => {
     const monthResponse = await axios.get("/api/monthDSO");
     dispatch(saveMonthDSO(monthResponse.data.month_response));
     // console.log("Month Data:", monthResponse.data.month_response);
-
   } catch (error) {
     dispatch(setError(error.message));
   } finally {
@@ -80,8 +79,7 @@ export const getDealers = (currentModel) => async (dispatch, getState) => {
     const uniqueDealers = [];
 
     data.forEach((d) => {
-      const dealerId = d.dealer_desc; // Adjust based on actual structure
-
+      const dealerId = d.dealer_desc;
       if (d.model_code === currentModel && !seenDealerIds.has(dealerId)) {
         seenDealerIds.add(dealerId);
         uniqueDealers.push(d.dealer_desc);
@@ -119,51 +117,61 @@ export const getCarModels = () => async (dispatch, getState) => {
   }
 };
 
+export const getCarSlotsForDealer =
+  (currentModel) => async (dispatch, getState) => {
+    try {
+      dispatch(setSelectedModel(currentModel));
+      dispatch(setLoading(true));
 
-export const getCarSlotsForDealer = (currentModel) => async (dispatch, getState) => {
-  try {
-    dispatch(setSelectedModel(currentModel));
-    dispatch(setLoading(true));
+      const state = getState();
+      const monthsMap = state.regionSection.monthDSO || {};
+      const slotData = state.regionSection.regionData?.reg_response || [];
 
-    const state = getState();
-    const monthsMap = state.regionSection.monthDSO;
-    const slotData = state.regionSection.regionData.reg_response;
+      const dsoToMonthAndRank = {};
 
-    const result = {};
-
-    // Build inverted map from DSO to month for quick lookup
-    const dsoToMonth = {};
-    Object.entries(monthsMap).forEach(([month, dsoList]) => {
-      dsoList.forEach((dso) => {
-        dsoToMonth[dso] = month;
+      Object.entries(monthsMap).forEach(([month, dsoList]) => {
+        dsoList.forEach((item) => {
+          if (!item?.dso || item.rank == null) {
+            return;
+          }
+          dsoToMonthAndRank[item.dso] = { month, rank: item.rank };
+        });
       });
-    });
-// console.log("DSO to Month Map:", dsoToMonth);
-    // Process slots
-    slotData.forEach((slot) => {
-      const { dealer_code, dso, model_desc } = slot;
-      // console.log("Processing Slot:", slot);
-      if (model_desc !== currentModel) return;
-      const month = dsoToMonth[dso];
-      // console.log( "Mapped Month:", month, "for DSO:", dso);
-      if (!month) return; // Skip DSOs not in monthsMap
 
-      // Init dealer + month if not present
-      if (!result[dealer_code]) result[dealer_code] = {};
-      if (!result[dealer_code][month]) result[dealer_code][month] = [];
-      // console.log("result dealer", result[dealer]);
-      result[dealer_code][month].push(slot);
-    });
+      const result = {};
 
-    // console.log("Organized Slots (Dealer > Month):", result);
-    dispatch(saveCarSlotsForDealer(result));
-  } catch (error) {
-    dispatch(setError(error.message));
-  } finally {
-    dispatch(setLoading(false));
-  }
-};
+      slotData.forEach((slot) => {
+        const { dealer_code, dso, model_desc } = slot;
 
+        if (
+          model_desc.trim().toLowerCase() !== currentModel.trim().toLowerCase()
+        ) {
+          return;
+        }
 
+        const dsoInfo = dsoToMonthAndRank[dso];
+        if (!dsoInfo) {
+          return;
+        }
+
+        const { month, rank } = dsoInfo;
+
+        if (!result[dealer_code]) result[dealer_code] = {};
+        if (!result[dealer_code][month]) result[dealer_code][month] = [];
+
+        result[dealer_code][month].push({
+          ...slot,
+          rank,
+        });
+      });
+
+      dispatch(saveCarSlotsForDealer(result));
+    } catch (error) {
+      console.error("Error in getCarSlotsForDealer:", error);
+      dispatch(setError(error.message));
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
 
 export default reducer;

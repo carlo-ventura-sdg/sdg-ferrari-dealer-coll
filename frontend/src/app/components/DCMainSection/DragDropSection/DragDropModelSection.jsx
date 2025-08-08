@@ -11,7 +11,6 @@ import {
 import { DragOverlay } from "@dnd-kit/core";
 import { DragDropSlot } from "./DragDropSlot";
 import { FerrariOrderCard } from "../../DCHeader/FerrariOrderCard/FerrariOrderCard";
-import { DealersSideSection } from "./DealersSideSection";
 import { useSelector } from "react-redux";
 
 export const DragDropModelSection = (props) => {

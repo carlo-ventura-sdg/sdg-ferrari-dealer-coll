@@ -1,16 +1,11 @@
+import { legendItems, mapStatusToLabel } from "@/app/utils/legend";
 import { Paper, Typography } from "@mui/material";
 
-//la logica di questi colori è sbagliata va cambiata in base alla mappa nel mockup
-const statusColors = {
-  Delivered: "#9CBFCD",
-  Transit: "#FEE066",
-  95: "#FEE066",
-  "00": "#72D78A",
-  P: "#BC72DC",
-  W: "#BC72DC",
-};
+
 export const FerrariOrderCardBase = ({ item }) => {
-  // console.log("FerrariOrderCardBase item:", item);
+  const label = mapStatusToLabel(item.status);
+  const color =
+    legendItems.find((item) => item.label === label)?.color || "#636363";
   return (
     <>
       {!item || item.length === 0 ? (
@@ -25,7 +20,7 @@ export const FerrariOrderCardBase = ({ item }) => {
             flexDirection: "column",
             justifyContent: "space-around",
             backgroundColor: "#fff",
-            borderLeft: `8px solid ${statusColors["95"] || "#636363"}`,
+            borderLeft: `8px solid ${color}`,
             borderRadius: 0,
             px: 0.5,
             // mb: 0.5,
@@ -33,7 +28,11 @@ export const FerrariOrderCardBase = ({ item }) => {
             boxShadow: 2,
             cursor: "grab",
           }}>
-          <Typography variant='body' fontSize={10} fontWeight='bold' textTransform='uppercase'>
+          <Typography
+            variant='body'
+            fontSize={10}
+            fontWeight='bold'
+            textTransform='uppercase'>
             {item.customer_name}
           </Typography>
           <Typography variant='body' fontSize={11}>

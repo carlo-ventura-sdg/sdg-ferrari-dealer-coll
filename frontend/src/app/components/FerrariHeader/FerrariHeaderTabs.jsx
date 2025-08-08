@@ -66,7 +66,7 @@ export const FerrariHeaderTabs = () => {
   const dispatch = useDispatch();
   const sensors = useSensors(useSensor(PointerSensor));
   const [activeItem, setActiveItem] = useState(null);
-  const { currentTab, selectedModel } = useSelector(
+  const { currentTab, selectedModel, carSlotsForDate} = useSelector(
     (state) => state.anagraficaDso
   );
   const { carSlotsForDealer, monthDSO } = useSelector(
@@ -74,7 +74,6 @@ export const FerrariHeaderTabs = () => {
   );
   const months = Object.keys(monthDSO);
   // console.log("Months:", months);
-  const { carSlotsForDate } = useSelector((state) => state.anagraficaDso || []);
   // console.log("Car Slots for Date:", carSlotsForDate);
   const [slots, setSlots] = useState([]);
 
@@ -87,8 +86,6 @@ export const FerrariHeaderTabs = () => {
       dispatch(getCarModels());
     }
   }, [currentTab]);
-
-  // Transform carSlots into slot structure
 
   useEffect(() => {
     if (currentTab === "DC") {
@@ -111,14 +108,16 @@ export const FerrariHeaderTabs = () => {
               model_name: slot.model_desc,
               model_code: model,
               status: slot.status_id,
+              order_call: slot.flag_order_call,
               day_w_code: slot.day_w_code,
               day_w_desc: slot.day_w_desc,
+              allocation_month: month,
+              rank: slot.rank,
             }))
           );
         });
         setSlots(newSlots);
       });
-      console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", newSlots);
     } else if (currentTab === "RD") {
       if (!carSlotsForDealer || typeof carSlotsForDealer !== "object") return;
 
@@ -143,6 +142,7 @@ export const FerrariHeaderTabs = () => {
                 day_w_code: slot.day_w_code,
                 day_w_desc: slot.day_w_desc,
                 allocation_month: month,
+                rank: slot.rank,
               });
             });
           });
